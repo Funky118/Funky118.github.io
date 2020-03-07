@@ -1,1 +1,1 @@
-{"componentChunkName":"component---src-templates-page-js","path":"/about/","result":{"data":{"markdownRemark":{"html":"<p>Don't bother with me, what about you?</p>","frontmatter":{"title":"About me"}}},"pageContext":{"slug":"about"}}}
+{"componentChunkName":"component---src-templates-page-js","path":"/about/","result":{"data":{"markdownRemark":{"html":"<p>What would you like to know?</p>","frontmatter":{"title":"About Me"}}},"pageContext":{"slug":"about"}}}
