@@ -1,87 +1,19 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:media="http://search.yahoo.com/mrss/"><channel><title><![CDATA[My blog of magic and wonder]]></title><description><![CDATA[If you take elecronics as magic and me fucking up as wonderful]]></description><link>https://rivulet.tk/</link><image><url>https://rivulet.tk/undefined</url><title>My blog of magic and wonder</title><link>https://rivulet.tk/</link></image><generator>Ghost 2.9</generator><lastBuildDate>Sun, 08 Mar 2020 12:32:03 GMT</lastBuildDate><atom:link href="https://rivulet.tk/rss/" rel="self" type="application/rss+xml"/><ttl>60</ttl><item><title><![CDATA[Welcoming to write third post]]></title><description><![CDATA[This article is about different typography which are supported in the post section of the blog. 
-Below you can see the various headings…]]></description><link>welcoming-post-third</link><guid isPermaLink="true">welcoming-post-third</guid><dc:creator><![CDATA[Dominik]]></dc:creator><pubDate>Fri, 29 Nov 2019 18:30:00 GMT</pubDate><media:content url="https://rivulet.tk/static/c70aaee4fd937cc2e7e24f403412d575/eeb1b/welcoming-third-post-feature-image.png" medium="image"/><content:encoded><![CDATA[<img src="https://rivulet.tk/static/c70aaee4fd937cc2e7e24f403412d575/eeb1b/welcoming-third-post-feature-image.png"/><p>This article is about different typography which are supported in the post section of the blog.
-Below you can see the various headings, paragraphs, code snippet examples, etc.</p>
-<h1>An h1 header</h1>
-<p>Paragraphs are separated by a blank line.</p>
-<p>2nd paragraph. <em>Italic</em>, <strong>bold</strong>, and <code class="language-text">monospace</code>. Itemized lists
-look like:</p>
-<ul>
-<li>this one</li>
-<li>that one</li>
-<li>the other one</li>
-</ul>
-<p>Note that --- not considering the asterisk --- the actual text
-content starts at 4-columns in.</p>
-<blockquote>
-<p>Block quotes are
-written like so.</p>
-<p>They can span multiple paragraphs,
-if you like.</p>
-</blockquote>
-<p>Use 3 dashes for an em-dash. Use 2 dashes for ranges (ex., "it's all
-in chapters 12--14"). Three dots ... will be converted to an ellipsis.
-Unicode is supported. ☺</p>
-<h2>An h2 header</h2>
-<p>Here's a numbered list:</p>
-<ol>
-<li>first item</li>
-<li>second item</li>
-<li>third item</li>
-</ol>
-<p>Note again how the actual text starts at 4 columns in (4 characters
-from the left side). Here's a code sample:</p>
-<div class="gatsby-highlight" data-language="python"><pre class="language-python"><code class="language-python"><span class="token comment"># Let me re-iterate ...</span>
-<span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token number">1</span> <span class="token punctuation">.</span><span class="token punctuation">.</span> <span class="token number">10</span> <span class="token punctuation">{</span> do<span class="token operator">-</span>something<span class="token punctuation">(</span>i<span class="token punctuation">)</span> <span class="token punctuation">}</span></code></pre></div>
-<p>As you probably guessed, indented 4 spaces. By the way, instead of
-indenting the block, you can use delimited blocks, if you like:</p>
-<div class="gatsby-highlight" data-language="js"><pre class="language-js"><code class="language-js">define <span class="token function">foobar</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    print <span class="token string">"Welcome to flavor country!"</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span></code></pre></div>
-<p>(which makes copying &#x26; pasting easier). You can optionally mark the
-delimited block for Pandoc to syntax highlight it:</p>
-<div class="gatsby-highlight" data-language="python"><pre class="language-python"><code class="language-python"><span class="token keyword">import</span> time
-<span class="token comment"># Quick, count to ten!</span>
-<span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
-    <span class="token comment"># (but not *too* quick)</span>
-    time<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span><span class="token number">0.5</span><span class="token punctuation">)</span>
-    <span class="token keyword">print</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span></code></pre></div>
-<h3>An h3 header</h3>
-<p>Now a nested list:</p>
-<ol>
-<li>
-<p>First, get these ingredients:</p>
-<ul>
-<li>carrots</li>
-<li>celery</li>
-<li>lentils</li>
-</ul>
-</li>
-<li>Boil some water.</li>
-<li>
-<p>Dump everything in the pot and follow
-this algorithm:</p>
-<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">find wooden spoon
-uncover pot
-stir
-cover pot
-balance wooden spoon precariously on pot handle
-wait 10 minutes
-goto first step (or shut off burner when done)</code></pre></div>
-<p>Do not bump wooden spoon or it will fall.</p>
-</li>
-</ol>
-<h3>Image with Alt</h3>
-<p><img src="https://user-images.githubusercontent.com/21834/34442433-6afc7594-ecc2-11e7-9277-c4a6602a3067.png" alt="Alt text of the image"/></p>]]></content:encoded></item><item><title><![CDATA[Welcoming to write second post]]></title><description><![CDATA[This week we’ll take a look at all the steps required to make astonishing coffee with a Chemex at home. The Chemex Coffeemaker is a manual…]]></description><link>welcoming-post-second</link><guid isPermaLink="true">welcoming-post-second</guid><dc:creator><![CDATA[Dominik]]></dc:creator><pubDate>Wed, 13 Nov 2019 18:30:00 GMT</pubDate><media:content url="https://rivulet.tk/static/d34f128a2b589259e5ca23871f7ce715/f3583/welcoming-post-second-feature-image.png" medium="image"/><content:encoded><![CDATA[<img src="https://rivulet.tk/static/d34f128a2b589259e5ca23871f7ce715/f3583/welcoming-post-second-feature-image.png"/><p>This week we’ll <strong>take</strong> a look at all the steps required to make astonishing coffee with a Chemex at home. The Chemex Coffeemaker is a manual, pour-over style glass-container coffeemaker that Peter Schlumbohm invented in 1941, and which continues to be manufactured by the Chemex Corporation in Chicopee, Massachusetts.</p>
-<p>In 1958, designers at the <a href="https://www.spacefarm.digital" target="_blank">Illinois Institute of Technology</a> said that the Chemex Coffeemaker is <em>"one of the best-designed products of modern times"</em>, and so is included in the collection of the Museum of Modern Art in New York City.</p>
-<h2>The little secrets of Chemex brewing</h2>
-<p>The Chemex Coffeemaker consists of an hourglass-shaped glass flask with a conical funnel-like neck (rather than the cylindrical neck of an Erlenmeyer flask) and uses proprietary filters, made of bonded paper (thicker-gauge paper than the standard paper filters for a drip-method coffeemaker) that removes most of the coffee oils, brewing coffee with a taste that is different than coffee brewed in other coffee-making systems; also, the thicker paper of the Chemex coffee filters may assist in removing cafestol, a cholesterol-containing compound found in coffee oils. Here’s three important tips newbies forget about:</p>
-<ol>
-<li>Always buy dedicated Chemex filters.</li>
-<li>Use a scale, don’t try to eyeball it.</li>
-<li>Never skip preheating the glass.</li>
-<li>Timing is key, don’t forget the clock.</li>
-</ol>
-<p>The most visually distinctive feature of the Chemex is the heatproof wooden collar around the neck, allowing it to be handled and poured when full of hot water. This is turned, then split in two to allow it to fit around the glass neck. The two pieces are held loosely in place by a tied leather thong. The pieces are not tied tightly and can still move slightly, retained by the shape of the conical glass.</p>
-<p>For a design piece that became popular post-war at a time of Modernism and precision manufacture, this juxtaposition of natural wood and the organic nature of a hand-tied knot with the laboratory nature of glassware was a distinctive feature of its appearance.</p>]]></content:encoded></item><item><title><![CDATA[Welcoming to write first post]]></title><description><![CDATA[Welcome to gatsby-starter!]]></description><link>welcoming-to-first-article</link><guid isPermaLink="true">welcoming-to-first-article</guid><dc:creator><![CDATA[Dominik]]></dc:creator><pubDate>Sun, 09 Jun 2019 18:30:00 GMT</pubDate><media:content url="https://rivulet.tk/static/21e2ebff6862b2ff509ae2dd9a28c002/86643/network-world.png" medium="image"/><content:encoded><![CDATA[<img src="https://rivulet.tk/static/21e2ebff6862b2ff509ae2dd9a28c002/86643/network-world.png"/><p>Welcome to gatsby-starter!</p>
-<div class="gatsby-highlight" data-language="javascript"><pre class="language-javascript"><code class="language-javascript"><span class="token keyword">const</span> plop <span class="token operator">=</span> <span class="token string">"coucou"</span><span class="token punctuation">;</span>
-<span class="token keyword">const</span> toto <span class="token operator">=</span> <span class="token string">"tata"</span><span class="token punctuation">;</span></code></pre></div>]]></content:encoded></item></channel></rss>
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:media="http://search.yahoo.com/mrss/"><channel><title><![CDATA[My blog of magic and wonder]]></title><description><![CDATA[If you take elecronics as magic and me fucking up as wonderful]]></description><link>https://rivulet.tk/</link><image><url>https://rivulet.tk/undefined</url><title>My blog of magic and wonder</title><link>https://rivulet.tk/</link></image><generator>Ghost 2.9</generator><lastBuildDate>Sun, 08 Mar 2020 19:44:38 GMT</lastBuildDate><atom:link href="https://rivulet.tk/rss/" rel="self" type="application/rss+xml"/><ttl>60</ttl><item><title><![CDATA[First post on my new blog]]></title><description><![CDATA[A blog's 'Hello world' I wanted to start this off somehow, but I don't currently have anything worth posting so at least I'm gonna post this…]]></description><link>first_post_of_my_new_blog</link><guid isPermaLink="true">first_post_of_my_new_blog</guid><dc:creator><![CDATA[Dominik]]></dc:creator><pubDate>Sun, 08 Mar 2020 00:00:00 GMT</pubDate><media:content url="https://rivulet.tk/static/898e8d3b33962fe511993cb60241a29c/fe802/hello-world.png" medium="image"/><content:encoded><![CDATA[<h2>A blog's 'Hello world'</h2>
+<img src="https://rivulet.tk/static/898e8d3b33962fe511993cb60241a29c/fe802/hello-world.png"/><p>I wanted to start this off somehow, but I don't currently have anything worth posting so at least I'm gonna post this sort of a <i>Hello world</i> of blog posts.</p>
+<p>I'm going to tell you what's coming and share a little story from yesterday, so keep reading :D
+This blog is gonna go through some major changes in the future. A really good friend of mine gave me this idea. See I've mostly ever used social media as means to an end, when I needed to contact someone. And this "sharing your thoughts with the internet" never really appeal to me, I like my ideas where they are, in my head. But I'll share some of them with you :)</p>
+<p>Right so about that first thing...</p>
+<h2>The plan</h2>
+<p><img src="https://imgs.xkcd.com/comics/time_management.png" alt="There&#x27;s xkcd for everything!"/></p>
+<p>I'm studying electrical engineering (which reminds me I have to update About me later) and love prototyping but as I only have a single arduino, most of my projects end up dismantled just after getting them to half assedly work :D (maybe it's for the better, the world remembers you for what they can see). But recently I've started learning Fusion 360 and with 3D printing the new projects could look somewhat decent. Maybe.</p>
+<p>My love for building stuff comes from my talent for programming, so some of the posts will almost certainly be solely about software. Right now though, I don't have anything planned. See what languages I use in About me (if it ever gets updated).</p>
+<p>However don't get the impression that this is gonna be some kind of a tech blog.<br>
+Nah.<br>
+It's going to be my blog and I'll post what I'm interested in. Meaning you can look forward to some poetry, songs and even sci-fi/fantasy novels and short stories :)</br></br></p>
+<p>The driving force in setting up a blog were engineering projects though, so it will be a sort of mish mash of stuff. We'll see how it turns out :D</p>
+<h2>The story</h2>
+<p><img src="https://i.imgur.com/BYscKo2.jpg" alt="An epic to be sure!"/></p>
+<p>The story is pretty cool. My friend and I went geocaching around where I live. There was this one cach we couldn't have found even if the world had depended on it. That was last summer but the Fellowship never gives up. So we've planned to go again in the winter when the foliage would hopefully not obfuscate every possible hiding spot. So we went yesterday.</p>
+<p>Low and behold the cach couldn't have been easier to find :D It was just chilling there beneath a tree, a huge white bucket with a heavy stone on top...</p>
+<p>Ain't the end of the story though. Since we found the cach so fast, even though we didn't think we'd find it, the adventure had be improvised. So we'd decided to go climb this really high hunter tower I remembered from years ago. Spoiler alert: the tower wasn't there. Not only that, my friend was going to be late to the train station and would have to wait another hour. So she had the brilliant idea of hitching a car... And it worked :D Suprisingly fast even. We'd only had to wait like ten minutes for a car to stop. Even more suprising was that that car was going in the opposite direction than we needed :D</p>
+<p>And don't worry, I know what you're thinking, but the chance of two serial killers meeting each other are very very low ;)</p>]]></content:encoded></item></channel></rss>
