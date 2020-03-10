@@ -1,1 +1,1 @@
-{"componentChunkName":"component---src-templates-page-js","path":"/tags_page/","result":{"data":{"markdownRemark":{"html":"<p><a href=\"/tag/miscellaneous\">Ostatní</a></p>","frontmatter":{"title":"Tags"}}},"pageContext":{"slug":"tags_page"}}}
+{"componentChunkName":"component---src-templates-page-js","path":"/tags_page/","result":{"data":{"markdownRemark":{"html":"<p><a href=\"/tag/miscellaneous\">Ostatní</a></p>\n<p><a href=\"/tag/poetry\">Poezie</a></p>","frontmatter":{"title":"Tags"}}},"pageContext":{"slug":"tags_page"}}}
