@@ -1,0 +1,716 @@
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:media="http://search.yahoo.com/mrss/"><channel><title><![CDATA[My blog of magic and wonder]]></title><description><![CDATA[If you see programming as magic and me fucking up as wonderful]]></description><link>https://nickrivulet.com/</link><image><url>https://nickrivulet.com/undefined</url><title>My blog of magic and wonder</title><link>https://nickrivulet.com/</link></image><generator>Ghost 2.9</generator><lastBuildDate>Fri, 14 Jan 2022 13:35:31 GMT</lastBuildDate><atom:link href="https://nickrivulet.com/rss/" rel="self" type="application/rss+xml"/><ttl>60</ttl><item><title><![CDATA[Automate Windows 10 from your Android device]]></title><description><![CDATA[In this guide you're going to learn how to turn on and control your PC from your Android smartphone (no root required).
+I will go over the…]]></description><link>auto_pc</link><guid isPermaLink="true">auto_pc</guid><dc:creator><![CDATA[Nick]]></dc:creator><pubDate>Sun, 09 Aug 2020 00:00:00 GMT</pubDate><media:content url="https://nickrivulet.com/static/55d84d4cd52d515422e6e2cd7dd227ef/89851/AndroidWindowsLogo.png" medium="image"/><content:encoded><![CDATA[<img src="https://nickrivulet.com/static/55d84d4cd52d515422e6e2cd7dd227ef/89851/AndroidWindowsLogo.png"/><p>In this guide you're going to learn how to turn on and control your PC from your Android smartphone (no root required).
+I will go over the process step by step.</p>
+<p>Before we get started though, I have to warn you that the responsibility for any damages caused by following this guide is only
+yours. Please keep in mind that this will introduce a second way to access the computer in question.</p>
+<h1>What will you need</h1>
+This list is rather short and straight forward, you will only need:
+<ul>
+<li>An Android device</li>
+<li>A computer with Windows 10 and a Wake-on-LAN capability</li>
+</ul>
+<p>That's it, well basically...</p>
+<h1>Step 1: Installing the apps</h1>
+<p>The only two apps you'll need are going to be Automate and ConnectBot and they're both free!</p>
+<p>You can find the play store link for Automate <a href="https://play.google.com/store/apps/details?id=com.llamalab.automate&#x26;hl=en" target="_blank">here</a>.<br>
+And the link for ConnectBot <a href="https://play.google.com/store/apps/details?id=org.connectbot&#x26;hl=en" target="_blank">here</a>.</br></p>
+<h1>Step 2: Configuring Wake-on-LAN</h1>
+If your computer allows it, you can boot it up by sending it a special Wake-on-LAN packet. The packet contains your computer's
+MAC address, which will be important later.
+<p>To enable this, you will need to go into your computer's BIOS settings and maybe even configure your network adapter in the device manager.
+I got all that information from a single <a href="https://www.howtogeek.com/70374/how-to-geek-explains-what-is-wake-on-lan-and-how-do-i-enable-it/" target="_blank">source</a>,
+there they go into more depth about WoL and how to enable it on different operating systems.</p>
+<h3>To summarize for Windows:</h3>
+<p>First you'll need to enable WoL in your BIOS which can be tricky since your BIOS UI probably differs from mine.
+Restart your computer and in the loading screen press either: <b>DEL</b>, <b>F1</b>, <b>F9</b>, <b>F10</b>, <b>F12</b> or whatever your specific motherboard uses.
+Now the tricky part. Somewhere in the BIOS menu there will be an option to turn on Wake-on-LAN. Where? I can't say for you but for me
+it was under Settings\Advanced\Wake Up Event Setup\Resume By PCI-E Device -> Enabled</p>
+<p>With BIOS configured it's time to check the Network Adapter in Windows
+Go into your Device Manager: press "<i>windows key</i>"+"<i>x</i>" and then press "<i>m</i>", there you will see a section called "Network adapters".
+Right click your network adapter (for me it was the one with "PCIe" in name) and click on properties.
+Go to "Advanced" and scroll down until you find "Wake on Magic Packet", make sure it's "Enabled".
+Now go to "Power Management" and tick the "Allow this device to wake the computer" together with "Only allow a magic packet to wake the computer".
+Click OK and you should be done.</p>
+<p>To troubleshoot your WoL, because who are we kidding, nothing ever goes smoothly, you can use this tool from depicus:<br>
+<a href="https://www.depicus.com/wake-on-lan/wake-on-lan-monitor" target="_blank">https://www.depicus.com/wake-on-lan/wake-on-lan-monitor</a> <br>
+It will let you see if the magic packet is actually being received. If it's not then there might be a problem with your
+router not propagating the WoL packet through your local network.</br></br></p>
+<h3>Get your MAC address</h3>
+<p>Lastly you will need your PC's MAC address. Open command prompt and type in:</p>
+<div class="gatsby-highlight" data-language="cmd"><pre class="language-cmd"><code class="language-cmd">ipconfig /all</code></pre></div>
+<p>You will get something similar to this:</p>
+<div class="gatsby-highlight" data-language="cmd"><pre class="language-cmd"><code class="language-cmd">Windows IP Configuration
+
+   Host Name . . . . . . . . . . . . : DESKTOP-XXXXXX
+   Primary Dns Suffix  . . . . . . . :
+   Node Type . . . . . . . . . . . . : Hybrid
+   IP Routing Enabled. . . . . . . . : No
+   WINS Proxy Enabled. . . . . . . . : No
+   DNS Suffix Search List. . . . . . : home
+
+Ethernet adapter Ethernet:
+
+   Connection-specific DNS Suffix  . : home
+   Description . . . . . . . . . . . : Description of your controller
+   Physical Address. . . . . . . . . : 00-11-22-AA-BB-CC
+   DHCP Enabled. . . . . . . . . . . : Yes
+   Autoconfiguration Enabled . . . . : Yes
+   IPv6 Address. . . . . . . . . . . : your IPv6 address
+    .
+    .
+    .</code></pre></div>
+<p>Your MAC address is the "Physical Address". You will need it in the next step.</p>
+<h1>Step 3: Automate Wake-on-LAN</h1>
+Conveniently Automate can send a Wake-on-LAN magic packet.<br>
+Open the app and create the following flow.
+<p><span class="gatsby-resp-image-wrapper" style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; ">
+      <a class="gatsby-resp-image-link" href="/static/e75d54d863f8e3009a5427c99d5039a8/eefce/WoLFlow.png" style="display: block" target="_blank" rel="noopener">
+    <span class="gatsby-resp-image-background-image" style="padding-bottom: 211.35135135135135%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAqCAIAAAA8m+yHAAAACXBIWXMAAAsTAAALEwEAmpwYAAADr0lEQVRIx61UzW8bRRSfOE2/UKRGQpUo0HIBVRRO/BUceuPEhQMnBG2pqbNJQwj0w6paWqECEhxAooEKJESKlUqJ47Wd2MkmrkGtEzeO7VLbdNf2ej1eZ2Y/vJ9od6kxhiQbwk9Po9/bmbfvpzdvHugdIp+/vPDytcXdw2EPQXZaL0H2EGTfcPiIf/7oFeroFeqFywvHrlJPX4gfPDfXS5DAQ5ADH84ePDfnGSTBezPgTAj4QhbxWaRnkNw1RB74YHZgbLZ/NDowNvvU+Vj/aHTfSMRDkGDv2Uj/aBT4Qk9+NHfs6uJhf/zQhdhL1xafuRg77I/vH4n02Yr2jUSeeD/ikL7h8P6RyN6zEeA5Nb2bIMHbU3sGQ89dsvQ/64+/cj1x6GLsxY+pPaeD4J0pcGIKnA5admIKeGfAyWmPN9hzahoQt7O+yeywta69+3PmTGDNG8icvLXqDWS8gQxxOztkG2HbUHudtFZg7gBA1Q3NNrVjdekCwzCc3zhkW+7OZO8ouEuJaZq6rqs2NE3r5K5kI4Sq1SrHcQzDFIvFWq3Gsmy9Xm9HbpYZY8yyLEKIoqiJiQmO4yCEXcEbZsYYZzKZbDabSqWSyWQul1tdXa1UKq4KhhAqlUq5XC6ZvJNILN1Pp0ulUrlcdlUwURTrsKEK/Jex8uvjpTqE600LrmRbBbf3YoXWpxR+fNjYOvNfh2ym/4cOc440JP1BXWm7rgqmKArComlIny80j3/bwIIoS5Isy1vIdniz2WTK5fVGPfJr/pMf5/lGo1KpcBznqmCCIFSr1XWE7ixRP/1wk+d5Vx3mcFEU8/n8ysrK8nJqZfleZm0tnU7XarW/FWWTDqNpukw/yhWZu3maYWiaprtkb1iwVqvFN5Gpiddj8NWvq+sICxhjLLjqsPbdPGpqid9b/1S7xT1rurUXL7Q+o7BpGKbhosMcbr1nllNw46v56hs3GQgbENZ5nnd1VQghhmEQQtFIePzGN5w9DNwWDGPsTJKlRCIYnHFK7faenUnClMvF33KV0oNCocDZcNthlSorNuuTKc4/w0IIuVoNQuhqhum63lJU09S/v4ffugVVVdU1ze307NBmavr/OvSd3Mbmk+RfXQdQUGRV315mZySN/8IcGIu+diMlq/o2Mjv0+BfJXYPhfl/obqmx7cyBFH3kfPjN75KKogBtY/z5SLo+Ghrkm7IsGYYOxMcQBAEh1HZlWX5oQ5IksQOCYG2J9scNgyVJKhaLhUKhK7gTfwCwSO4vAdko4gAAAABJRU5ErkJggg=='); background-size: cover; display: block;"/>
+  <picture>
+          <source srcset="/static/e75d54d863f8e3009a5427c99d5039a8/a6329/WoLFlow.webp 185w,
+/static/e75d54d863f8e3009a5427c99d5039a8/c5f8a/WoLFlow.webp 370w,
+/static/e75d54d863f8e3009a5427c99d5039a8/aced9/WoLFlow.webp 720w" sizes="(max-width: 720px) 100vw, 720px" type="image/webp"/>
+          <source srcset="/static/e75d54d863f8e3009a5427c99d5039a8/b63e1/WoLFlow.png 185w,
+/static/e75d54d863f8e3009a5427c99d5039a8/c9d3d/WoLFlow.png 370w,
+/static/e75d54d863f8e3009a5427c99d5039a8/eefce/WoLFlow.png 720w" sizes="(max-width: 720px) 100vw, 720px" type="image/png"/>
+          <img class="gatsby-resp-image-image" src="/static/e75d54d863f8e3009a5427c99d5039a8/eefce/WoLFlow.png" alt="wake on lan with automate" title="wake on lan with automate" loading="lazy" decoding="async" style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"/>
+        </picture>
+  </a>
+    </span></p>
+<p>In the "Send Wake-on-LAN" block choose either port 7 or 9 and input your MAC address.</p>
+<p>You can now boot your computer from as far as your wifi can reach.</p>
+<h1>Step 4: Windows 10 OpenSSH</h1>
+<p>I've gone through many sources on this one. But the one with the most concise information has to be <a href="https://winaero.com/blog/enable-openssh-server-windows-10/" target="_blank">this</a>.</p>
+<p>Once again to summarize:</p>
+<ul>
+    <li>Go to "Settings" -> "Apps" -> "Apps & features"</li>
+    <li>Once there, click on "Optional features" then "Add a feature"</li>
+    <li>From the list select "OpenSSH Server" and install it</li>
+    <li>Go to c:\windows\system32\Openssh and type "cmd" into the explorer window.</li>
+    <li>Type ssh-keygen -A in the command prompt to generate the ssh key.</li>
+</ul>
+<p>Now, I have gone the more complicated route but apparently since then Microsoft has released a <a href="https://devblogs.microsoft.com/powershell/using-the-openssh-beta-in-windows-10-fall-creators-update-and-windows-server-1709/" target="_blank">tutorial</a>.</p>
+<ul>
+<li>Open PowerShell and type in:</li>
+</ul>
+<div class="gatsby-highlight" data-language="powershell"><pre class="language-powershell"><code class="language-powershell"><span class="token function">Install-Module</span> <span class="token operator">-</span>Force OpenSSHUtils
+
+<span class="token function">Repair-SshdHostKeyPermission</span> <span class="token operator">-</span>FilePath C:\Windows\System32\OpenSSH\ssh_host_ed25519_key</code></pre></div>
+<p>Ok, you should now have a working SSH server.</p>
+<p>Try it out! You can open a connection from <a href="https://play.google.com/store/apps/details?id=com.termux&#x26;hl=en" target="_blank">Termux</a> for example. Open Termux and type in:</p>
+<div class="gatsby-highlight" data-language="termux"><pre class="language-termux"><code class="language-termux">ssh name@host.</code></pre></div>
+<p>Where "name" is your user name and "host" is your computers name(or IP address). Once you fill in the password
+you will have access to the command prompt and from there you can control your computer remotely.</p>
+<h1>Step 5: ConnectBot SSH keys</h1>
+I suspect it is because we're trying to send a command from a unix environment to windows
+but regardless, the command you give to ConnectBot will not pass an "enter" key and so won't execute automatically.
+<p>Luckily the SSH protocol has a solution. You can assign a command to individual keys and that's precisely what
+we need to automate turning off the PC. Connect, execute a script and disconnect.</p>
+<p>In this case the script is a simple command: "cmd /c shutdown /p"</p>
+<p>In ConnectBot create your own public key and send it to your Windows PC.</p>
+<p>There go to "Users/YOUR_NAME/.ssh and open authorized_keys for editing.</p>
+<p>Put in: <b>command="cmd /c shutdown /p" CONNECTBOT_SSH_KEY</b></p>
+<p>Where CONNECTBOT_SSH_KEY is the key you've generated in ConnectBot.</p>
+<h1>Step 6: Automate ConnectBot</h1>
+Hopefully the last step.<br>
+Create the following flow:
+<p><span class="gatsby-resp-image-wrapper" style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 720px; ">
+      <a class="gatsby-resp-image-link" href="/static/56a2921f45af41e477e15109fe021786/eefce/TurnOffFlow.png" style="display: block" target="_blank" rel="noopener">
+    <span class="gatsby-resp-image-background-image" style="padding-bottom: 211.35135135135135%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAqCAIAAAA8m+yHAAAACXBIWXMAAAsTAAALEwEAmpwYAAADnklEQVRIx9VUbW/bVBS+TdexTdoYaEIImDaJiTEmfgD/gU9o/4APIEHpCGuTrqIFCtVeWoQQSKAJITZRgcQ+pGsgbfPWNyfd2pRCWzUppEmcxfaNr+3Eju3E9jWKPao0UlpH4wuPjo/Oufa5z9U59zE45A2fHlk4fzN2uD/s8oR2rdPyHZ5QV3/4zMji+Rux175+cHEsfmE09sJnC898MtfpCYFOb+jEYPTUx3OuvhD4YAb0BsEV22bs4JA3dHJw9qmh2ScHZ58emn12eP74h9GjAxGXJwSOXI2cGIyC3uCpj+YujsVPjyycu06cu0G8MhZ78Trx/Kfz9omODkSODUQ6rKCrP3xsIHLkagS4eqYOe0LgncATfcGz14hXP4+fvbb40s3YhdH4y6Px54bnQXcAvBsA70/XrTsA3DPgvSmXe7qjZwp4/am+yVS/P9U7mbzs27pyL+me2Lrs2+rx1b17Iun1p7z+lMcy714PzMcA0A2sGVi3TGvwTtLHYzZNE2NsJ3bgPP0fM/+Xx9Z1XdM0XdcNC5oFwzAav2l5bIQQhJBlWZIkKYpiWRZCKEnSAcx2zFpACPl8PoIgJEmiaVoUxYOZMcY8z5MkuZVM3r+/tLq6ur29TdN0S+amYoRQoVDIZjN5MpfLZtLpNEVRu8z7Hds0TUEQOI4TBOGtX5hbBKvLAmSRLMuOGoYtmCb+dkmKppV6/w3cRNByVPXA8ks5NcPXrPU9W+/HLIqiJIrlcvmNceGLhbJZFflSuVqtOmoYhJCiKEks377763SUEMslpw3DGHMcR9M0Qmjy3kRiZZnjOIZpZ875fD6RSPyd3Nz8c21jY7O9GwYhzOzsfBdY8y+uM4U8zTCOmE3TVFVVUWRVVS+Nc18ulk2zKlZkTdOcStLeneS1kmK0J0lLjvXH/Zs4vloxTb1acyZJjHHRAlssdv+Q+Cmel0uIZhw3DCFULBYhZH6+8/3GWkIoldqQpF2cTqfX1zeWl1coioIQtrwkTcUsyzIQPsznSTKXy2ULhQLTMKoDJVniEBJ4/u278BZR1CQeFtm2JflVTAz+9UiSTVPE+0iyxfAfveXkWlU3DvhvG3iPkg0rubNSODkUvXT7D1Uz2vjp2xu9/s2Drr7w8d7g7zmujWKb2bf28Mxw+M0fl2u1GtBbw65pXsQ6XyqpqoKxAeR/UalURFHcTVVV3bGgKIrcgIr1SrYWWxYripLNZjOZTFNxI/4B5pPv99BCuQUAAAAASUVORK5CYII='); background-size: cover; display: block;"/>
+  <picture>
+          <source srcset="/static/56a2921f45af41e477e15109fe021786/a6329/TurnOffFlow.webp 185w,
+/static/56a2921f45af41e477e15109fe021786/c5f8a/TurnOffFlow.webp 370w,
+/static/56a2921f45af41e477e15109fe021786/aced9/TurnOffFlow.webp 720w" sizes="(max-width: 720px) 100vw, 720px" type="image/webp"/>
+          <source srcset="/static/56a2921f45af41e477e15109fe021786/b63e1/TurnOffFlow.png 185w,
+/static/56a2921f45af41e477e15109fe021786/c9d3d/TurnOffFlow.png 370w,
+/static/56a2921f45af41e477e15109fe021786/eefce/TurnOffFlow.png 720w" sizes="(max-width: 720px) 100vw, 720px" type="image/png"/>
+          <img class="gatsby-resp-image-image" src="/static/56a2921f45af41e477e15109fe021786/eefce/TurnOffFlow.png" alt="SSH turn off with automate" title="SSH turn off with automate" loading="lazy" decoding="async" style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"/>
+        </picture>
+  </a>
+    </span></p>
+<p>In the "Start shortcut" block pick ConnectBot and choose the connection tied to the key that executes shutdown.</p>
+<p>Congrats, you have now turned your smartphone into a remote on and off button &#x26;#x1F642</p>
+<p>This doesn't even scratch the surface of what you can do with a running SSH connection however. Go wild, your imagination is the limit.</p></br></br>]]></content:encoded></item><item><title><![CDATA[Automated water gauge (more interesting title)]]></title><description><![CDATA[This is a placeholder title for my template page So, how are you doing Dom? I hope you're taking good care of yourself and not getting…]]></description><link>automated water gauge</link><guid isPermaLink="true">automated water gauge</guid><dc:creator><![CDATA[Nick]]></dc:creator><pubDate>Mon, 12 Jul 2021 00:00:00 GMT</pubDate><media:content url="https://nickrivulet.com/static/efecd9d40367ec0d16517eccd2131f51/0ef64/placeholder.png" medium="image"/><content:encoded><![CDATA[<h2>This is a placeholder title for my template page</h2>
+<img src="https://nickrivulet.com/static/efecd9d40367ec0d16517eccd2131f51/0ef64/placeholder.png"/><p>So, how are you doing Dom? I hope you're taking good care of yourself and not getting fucked by the system. Also hope you ain't ignoring your times political and social issues, those are always going to be important. Do take frequent breaks though &#x3C;3</p>]]></content:encoded></item><item><title><![CDATA[Automated garden irrigation (think of better title)]]></title><description><![CDATA[This is a placeholder title for my template page So, how are you doing Dom? I hope you're taking good care of yourself and not getting…]]></description><link>garden irrigation</link><guid isPermaLink="true">garden irrigation</guid><dc:creator><![CDATA[Nick]]></dc:creator><pubDate>Mon, 12 Jul 2021 00:00:00 GMT</pubDate><media:content url="https://nickrivulet.com/static/efecd9d40367ec0d16517eccd2131f51/0ef64/placeholder.png" medium="image"/><content:encoded><![CDATA[<h2>This is a placeholder title for my template page</h2>
+<img src="https://nickrivulet.com/static/efecd9d40367ec0d16517eccd2131f51/0ef64/placeholder.png"/><p>So, how are you doing Dom? I hope you're taking good care of yourself and not getting fucked by the system. Also hope you ain't ignoring your times political and social issues, those are always going to be important. Do take frequent breaks though &#x3C;3</p>]]></content:encoded></item><item><title><![CDATA[Automatic blinds]]></title><description><![CDATA[There are as many auto-blinds projects on the internet as there are indians teaching college math,
+so why check out this one. Well, I'll…]]></description><link>auto_blinds</link><guid isPermaLink="true">auto_blinds</guid><dc:creator><![CDATA[Nick]]></dc:creator><pubDate>Thu, 01 Jan 1970 00:00:00 GMT</pubDate><content:encoded><![CDATA[<p>There are as many auto-blinds projects on the internet as there are indians teaching college math,
+so why check out this one. Well, I'll tell you why; because unlike those other guides, this won't
+be a guide at all. This will be a testament to the most stubborn engineering method ever.</p>
+<p>Trial and error.</p>
+<h2>The annoying problem</h2>
+<p>Waking up to a sunrise or falling asleep in a velvet darkness? This has been a dilemma ever since the great
+war of AC and DC had started, as if electrocuting elephants wasn't bad enough! Unless you live in a remote
+location. You are going to be either doomed to falling asleep under the bright glow of city lights or living in
+a perpetual winter morning time. Whichever is worse is unimportant, both options suck.
+So how should we solve this problem? That's easy, just automate it!</p>
+<h2>Automate EVERYTHING!</h2>
+<p>As usual there's a relevant xkcd.</p>
+<p><img src="https://imgs.xkcd.com/comics/automation.png" alt="AUTOMATE AUTOMATE AUTOMATE!"/></p>
+<p>However do not fret, this project will stay permanent once completed
+because there are no more permanent solutions than those that are supposed to be temporary.<br>
+In this spirit. Where should we begin? Assess the problem, build a plan and construct a solution?
+Lol, no. Just do the first thing that comes to mind. In my case that was to 3D print a simple gear that
+I would mount onto one of the scrapped DC motors I had lying around.</br></p>
+<p>Just one small problem. How much torque will the motor need to have. And maybe even more importantly.
+How in the world am I going to figure out a scrapped motor's torque?</p>
+<p>Let's ask sir Newton.</p>]]></content:encoded></item><item><title><![CDATA[Povídka do karantény]]></title><description><![CDATA[Jak se máte přátelé?
+Já docela zaneprázdněně.
+Tento týden jsem měl obzvlášť nabitý, a to navzdory virovým prázdninám. Problém je, že to…]]></description><link>short_story</link><guid isPermaLink="true">short_story</guid><dc:creator><![CDATA[Nick]]></dc:creator><pubDate>Wed, 18 Mar 2020 00:00:00 GMT</pubDate><media:content url="https://nickrivulet.com/static/bb0ee073b04566c90db49ed5d6a3dc32/e4d72/corona.png" medium="image"/><content:encoded><![CDATA[<img src="https://nickrivulet.com/static/bb0ee073b04566c90db49ed5d6a3dc32/e4d72/corona.png"/><p>Jak se máte přátelé?<br>
+Já docela zaneprázdněně.
+Tento týden jsem měl obzvlášť nabitý, a to navzdory virovým prázdninám. Problém je, že to naši profesoři jako prázdniny nevidí, a tak nám nasypali hromady otravných projektů, ale to je život.<br>
+Bohužel to znamená, že jsem nestihl sepsat pohádku, kterou jsem dnes plánoval vypustit do inter webů, ale našel jsem něco jiného. &#x26;#128526</br></br></p>
+<p>Minulý semestr jsem měl za úkol napsat deseti stránkovou zprávu o praxi. Jenže když jsem dokončil poslední větu, zjistil jsem, že mám všeho všudy jen šest stránek, a tak jsem musel improvizovat.</p>
+<p>Vyřešil jsem to tak, že jsem tu zprávu doplnil příběhem. Myslel jsem si o sobě, jak nejsem chytrý, nikdo si přece nebude číst celou zprávu, maximálně ji zběžně prolistují. A samozřejmě jsem se pochlubil kolegům, jak jsem vyzrál nad systémem...<br/></p>
+<p>Od nich jsem se dozvěděl, že jsme mohli používat obrázky.</p>
+<p>Poslední část téhle povídky se odehrává v post apokalyptickém světě, po virové pandemii, takže je to dokonce tematický!</p>
+<p>Enjoy. &#x26;#x1F609</p>
+<h1>Rivuletovi cesty</h1> 
+<h3>Něco začíná</h3> 
+<p>Vzduchem znělo štěbetání ptáků, snažil jsem se je najít v korunách větrem se kymácejících stromů, ale bylo to marné, mezi pohybem listoví a neustále se měnící siluetou koruny nešlo pěvce nijak rozeznat. Vedle mě někdo zakašlal. Ležérně jsem se ohlédl vlevo a prohlédl si zástup lidí stojících na platformě nástupiště. Stál jsem před vlakovým nádražím v Bolovicích. Jako čtvrtý ode mě přešlapoval muž s modro-černou taškou přes rameno. Měl krátké černé vlasy a stál tam v modro bílé čtverečkované košili a tmavě modrých džínách. Viděl jsem, jak si utírá nos a znovu se chystá zakašlat. Pomyslel jsem si, jak se asi nachladil, když jsou venku ve dne v noci takové pařáky, možná za to mohla klimatizace, možná to byl zárodek apokalyptického patogenu, dosud nepoznaná mutace chřipky, hlásající zkázu lidského pokolení, mohl jsem jen hádat.</p>
+<p>Zakašlání.</p>
+<p>„Hej, Dome!“ Ozvalo se zprava a vedle mě si stoupl o hlavu vyšší rozvalitý muž s černým plnovousem, roztaženým do zářivě bílého úsměvu a se stejnou taškou přes rameno jako měl pan Kašlal.</p>
+<p>Zazubil jsem se taky. „Ahoj Petře.“ Řekl jsem. „Jak se vede?“</p>
+<p>„Pracovně.“ Odpověděl trochu rozmrzele.</p>
+<p>Zamračil jsem se, takovou odpověď jsem nečekal. „Ty pracuješ?“</p>
+<p>„Ale ne, ne takhle pracovně. Máme do příštího týdne napsat tři eseje a zatím jsem se nedostal ani k jedné.“</p>
+<p>„Aha, takže pořád na fildě? Do čeho to máš napsat?“</p>
+<p>Ale dozvědět se to mi tenkrát nebylo dopřáno, protože se zleva ozval druhý hlas, tentokrát ženský.</p>
+<p>„Zdravíčko pánové!“</p>
+<p>Ohlédl jsem se a spatřil usměvavé sluníčko pokryté zrzavými vlasy padajícími až po ramena. Stálo tam na nástupišti s námi a v teplém vánku mu povlávaly tmavě modré šaty.</p>
+<p>„Áh, Alžbět!“ Usmál jsem se znovu. „Nazdar, kampak cváláš?“</p>
+<p>„Do práce.“</p>
+<p>„Tak to jsme tady jako tři mušketýři. A já myslel, že se cestou budu nudit.“</p>
+<p>„A kam jedeš ty?“ Zeptal se Petr.</p>
+<p>„Na pohovor do Honeywellu.“</p>
+<p>„Jo tak, a nejseš z toho nervózní?“</p>
+<p>„Ani ne.“</p>
+<p>„Seš na to připravenej, co?“</p>
+<p>„Jenom trochu,“ usmál jsem se a zahleděl do třepotající se řady stromů „ono to dopadne tak jak to dopadne. Ostatně jako vždycky.“</p>
+<p>Zleva zatroubil vlak a siluety se vznesly k obloze.</p>
+<h3>Nádraží snů</h3> 
+<p>Byl jsem oblečený v tričku a kraťasech, a přesto jsem se stále potil. Večer! Zatraceně, pomyslel jsem si, za chvíli je konec léta a je pořád větší a větší horko. Vyšel jsem na vrchol mostu a začal mě chladit příjemný vánek. Podíval jsem se přes zábradlí pod sebe. Už tam na mě čekal.</p>
+<p>Přišel jsem na konec Mlýnského mostu a pomalu se vydal po schodech. Měl jsem čas.</p>
+<p>Když jsem došel až dolů, něco mi tam nesedělo. Nemohl jsem si se vzpomenout co, ale něco tam chybělo. Hmm. Přešel jsem ten pocit, zase tolik času jsem neměl. Vydal jsem se přes silnici směrem k východu. Minul jsem nejdřív polorozpadlou barabiznu, potom zahradu připomínající spíše Amazonskou džungli, dokonce se na mě zaleskly oči jakési kočkovité šelmy, až jsem nakonec došel k tomu místu, kde čekal.</p>
+<p>Sto tunový kovový kolos si hověl na okovaných dubových kládách a předl svou dieselovou píseň.</p>
+<p>Zamířil jsem k jeho čumáku a přejížděl při tom prsty ocelové boky.</p>
+<p>„Dobrý večer.“ Pozdravil jsem paní průvodčí. Respektu hodná žena, když dokáže vládnout takovéto bestii.</p>
+<p>„Dobrý večer.“ Kývla na mě malá paní v tmavě modré uniformě.</p>
+<p>Nastoupil jsem dovnitř a sedl si k oknu očekávaje další nudnou cestu domů. Žel, nebylo mi dopřáno zamyšleně hledět necelou hodinu do temnoty za oknem, probudil mě z transu hluboký hlas.</p>
+<p>„Nazdar Dome!“ řekl Petr.</p>
+<p><i>Hurá, nebudu se nudit!</i></p>
+<p>„Čau, kde se tady bereš?“ zeptal jsem se.</p>
+<p>„Z práce.“</p>
+<p>„Ty píšeš eseje v Mlýně?“</p>
+<p>„Ne,“ zasmál se „pracuju ve skladu. Na fildu jsem se vybodl.“</p>
+<p>„Aha. No jo, přičichl sis k penězům co?“</p>
+<p>„To taky, ale hlavně jsem si uvědomil, že mě to stejně nebavilo.“</p>
+<p>„Já myslel, že jsi chtěl učit...“ Zarazil jsem se. Z očí mého přítele se ztratila jiskra, kterou jsem tam dříve vídával. „Aha, jasně, chápu.“</p>
+<p>Jen tam tak stál, až jsem se začal cítit trapně.</p>
+<p>„Tak si sedni, prosím. Pověz, kde makáš?“</p>
+<p>„V Deufolu, balím na pásech.“ Položil svou modro černou tašku na sedačku a za hlučného vrzání pružin se posadil naproti mně.</p>
+<p>„Tak to je pěkný, a baví tě to?“</p>
+<p>„Vůbec.“</p>
+<p>Řekl to tak rezolutně až jsme se tomu oba začali hrdelně smát. Realita je někdy tou nejlepší komedií, pomyslel jsem si.</p>
+<p>„Proč myslíš, že studuju,“ řekl jsem „pracovat rukama už jsem zkoušel, a není to nic pro mě.“</p>
+<p>„Cítím to stejně, ale ty peníze jsou pěkný. Navíc už jsem mluvil s mojí vedoucí a vypadá to, že bych mohl eventuálně jít do kanclu.“</p>
+<p>„No jo, s tvojí angličtinou se tam dostaneš rychle.“</p>
+<p>„Zdravíčko pánové.“ Jak jsem očekával přišla k našemu sedadlu usměvavá rusovláska.</p>
+<p>Pozdravil jsem s Petrem Alžbětu a uvolnil jsem jí místo k sezení.</p>
+<p>„Tak jak ses měla?“ Zeptal jsem se.</p>
+<p>„To je na dlouhý povídání.“</p>
+<p>„Máme celou cestu vlakem.“ Přidal se Petr. „Tak povídej.“</p>
+<p>A tak jsme povídali. A necelá hodina se zdála být o to kratší.</p>
+<p>V Bolovicích jsme se každý vydali vlastní cestou. Petr pěšky do dva kilometry vzdálených Zdemyslic. Alžběta k autu a opačným směrem. Ta moje vedla k mému autu a domů. Pod nohama mi křupal štěrk a ovíval mě o poznání chladnější vzduch. Došel jsem až ke svému autu a zastavil se s klíčky v ruce abych si odemkl, ale štěrk nepřestával křupat. A tehdy jsem si vzpomněl, co mi pod Mlýnským mostem nesedělo. Chyběl tam zelený Ford, naprosto stejný jako ten, který stál vedle mého auta.</p>
+<p>Vycítil jsem pohyb a instinktivně se přikrčil, nad hlavou mi proletěl konec dřevěné hole.</p>
+<p>Na nic jsem nečekal, odskočil jsem stranou a nabral hrst štěrku. Otočil jsem se a hodil ten štěrk po útočníkovi. Neměl jsem ale štěstí, žádný kamínek nezasáhl oči.</p>
+<p>„Kdo jsi? A proč mě pronásleduješ?“ Zahřměl jsem.</p>
+<p>Neodpověděl, místo toho se dal do útoku. Nemělo smysl se bránit, kosti se začnou lámat dřív než dřevěná hůl, a tak jsem se dal na útěk.</p>
+<p>Ukázalo se to jako špatný nápad. Ucítil jsem tupou bolest v pravém lýtku a podlomila se mi noha. Zachránil jsem se kotoulem a bleskově jsem se otočil. Stačilo to abych se vyhnul ráně, která mi mířila na hlavu.</p>
+<p>Dřevěná hůl mi prosvištěla těsně kolem ucha a já ji chytil, když se vracela. Trhl jsem směrem k sobě a vyvedl tím protivníka z rovnováhy. Nedal se ale tak lehce, pustil tyč, o kterou jsme se přetahovali, přiskočil ke mně a bleskurychle udeřil pěstí. Snažil jsem se vyhnout, ale pravá noha mě neposlouchala. Dostal jsem ránu do spánku a odhodilo mě to na nástupiště. Svět kolem mě se rozzářil a cítil jsem vibrace po celém těle.</p>
+<p>Vzhlédl jsem a spatřil smrt, jak se napřahuje k poslednímu úderu.</p>
+<p>Smrt ale musí být hluchá a slepá, protože ve chvíli, kdy se hůl začala spouštět k mojí hlavě, přede mnou projel rychlík a z neznámého útočníka nezbyla ani stopa.</p>
+<p>Oddechl jsem si. To bylo těsný. Šáhl jsem si do kapsy a uvědomil si svou strašlivou chybu. Neměl jsem klíče!</p>
+<p>„A takhle jsem je ztratil mami.“ Řekl, jsem. Očividně ji to přepadení rozzlobilo stejně jako mě, protože tam stála rudá ve tváři.</p>
+<p>„No to si děláš... A jak se do toho auta chceš...“</p>
+<p>„Neboj, naštěstí znám čarodějku, která mi obstará náhradní, ale žije až v dalekých Židlovicích, tak to bude muset počkat do pondělí.“</p>
+<p>Máma jen zakroutila očima, a tak jsem se otočil k odchodu. Když jsem došel do svého pokoje, otevřel jsem si okno a poslouchal zvukům léta. Bylo to poslední úterý před začátkem podzimu.</p>
+<p>A jak jsem tam tak zamyšleně poslouchal šelestu stromů a skřehotání nočních tvorů, napadlo mě, že se vlastně na ten podzim těším. Že se těším až uvidím kamarády, které jsem už čtyři měsíce neviděl. Že se těším až se dostanu do toho studentského rytmu až budu mít spoustu práce. Ale, řekl jsem si, vůbec, vůbec se netěším až budu muset roztáhnout nějaký text ze dvou stran na deset.</p>
+<h3>Všechno jednou končí</h3> 
+<p>Jsou tomu už dva roky. Procházím se zpustlým náměstím Bolovic a pozoruji opuštěné obchody.</p>
+<p>Pokouším se rozpomenout, jak kdysi vypadaly, kypící životem a oplývající pestrými barvami, které měly upoutat pozornost. Slyším lidi procházet kolem mě, v dálce zní zvon kostela, nevím ale kdy začal zvonit, a tak nemůžu určit kolik je hodin. Když se opravdu hodně soustředím, slyším kakofonii silničního provozu. Vrrr. Tůt tůt. Klik klak. Klik klak.</p>
+<p>Všechno je ale rozmazané, jako bych se díval přes nějaký opar. Přes opar minulosti. Otevřu oči a vidím rozbité vitríny vedle vylámaných dveří. Břečťan obrůstající zdi vyrabovaného hotelu a vysokou trávu prosperující na někdejší zahrádce. Vidím prachem pokrytá auta v různých fázích rozkladu. Všechno jednou končí.</p>
+<p>Dojdu na konec náměstí a vzhlédnu ke kostelu. Obrovské vstupní dveře byly dávno použity jako palivo. Na vybledlé omítce se začínají objevovat zárodky puklin, které jednoho dne pošlou celou stavbu zpátky k zemi.</p>
+<p>Jak neradi si to uvědomujeme. Všechno jednou končí. Přátelství. Lásky. Štěstí. Život.</p>
+<p>Civilizace.</p>
+<p>Pan Kašlal se ukázal být pacientem nula. Nebo spíše symptomem nula, už tehdy byli všichni zatracení, jen o tom ještě nevěděli. Obyčejný kus DNA, neškodný a v každém z nás docilní. Nikdo už se nedozví, odkud se v nás všech tenhle virus vzal. Na takové otázky nebyl čas.</p>
+<p>Za správných podmínek se aktivoval. Dokud fungoval internet, říkalo se, že za to můžou rekordní teploty, které v tom létě nastaly v kombinaci s dalšími faktory lidské činnosti. Možná to byly fámy enviromentálních extrémistů, možná ne, na tom už nezáleží. V podstatě přes noc celý rovník zešílel. Nastal chaos. Státy, které mohly se odřízly od pevniny, ale vydržely jen o trochu déle než ty, které byly s pevninou spojeny.</p>
+<p>Zombie byli schopní nevídané agresivity, instinktivně se shlukovali do stád a měli tendenci migrovat. Přes Arabské emiráty se prý převalili jako hejno sarančat. Čína, ach, ty nejhorší videa pocházela z Číny.</p>
+<p>Imunní byly dvě procenta lidí a já tehdy vyhrál v loterii, nebo prohrál, záleží na úhlu pohledu.</p>
+<p>Dojdu až ke kostelu a procházím portálem. Majestátní. I přes vytrvalou snahu živlů ve mě interiér stále vyvolává pokoru. Dojdu až k žulovému letnýři, všechny lavice už byli spáleny, a posadím se směrem ke vchodu. Venku je docela hezky, letní dny jsou stále ještě horké, ale to by se mělo pomalu zlepšovat.</p>
+<p>Doléhají ke mně zvuky poledne. Venku zpívají ptáci a mezi listím šustí vítr. Občas uslyším meluzínu v některé z rozbitých vitráží. Je to nádherné, pomyslím si. <i>Člověk se musí těšit z maličkostí, jinak by se zbláznil.</i></p>
+<p>Seskočím z letnýře a vydávám se domů.</p>
+<p>Za poslední rok a půl jsem procestoval Evropu. Zůstávat doma bylo příliš bolestivé. Benzín, ale postupně degradoval, cestou zpátky jsem musel najít dieselovou motorku.</p>
+<p>Vyjdu zpátky na náměstí, naposledy se ohlédnu za budovou kostela, která mě nejspíš přežije, ale která stejně jako tak jednou skončí. Procházím kolem pustých obchodů až k vyschlé fontáně, kde na mě čeká můj odvoz.</p>
+<p>„Nazdar Sáro.“</p>
+<p>„...“</p>
+<p>„No, tak se spolu zase projedeme. Doma jsem tě ještě neukázal krásko, stejně není komu bych tě ukazoval, ale určitě by ses jim líbila.“</p>
+<p>„...“</p>
+<p>„No jo, ty toho moc nenamluvíš, ale to se mi na tobě líbí.“ Usměji se na svou motorku a otočím klíčkem abych zapnul žhavení. O chvíli později už projíždím uličkami Bolovic za hlasitě se rozléhající ozvěny dieselového motoru. Jedu do Zdemyslic, kde stojí náš rodinný dům... Tedy teď už jen můj dům. Vychutnávám si chladný vítr ve tváři a vyhýbám se autům rozesetým po děravé silnici.</p>
+<p>Zatočím směrem do Zdemyslic a zastavím se u třetí budovy. Není to ale můj příbytek. Vypnu motorku a postavím ji na stojan. Před chatrčí s propadlou střechou zeje polootevřená zrezivělá branka. Za hlasitého vrzání ji otevřu a přijdu až k popraskaným dveřím. Položím na ně ruku. Kdysi tady žil můj kamarád.</p>
+<p>Uslyším kroky.</p>
+<p>Ve skle dveří se objeví postava a než stihnu zareagovat otevře je. <i>Ne</i>. Přede mnou se tyčí rozvalitý muž se zacuchaným černým plnovousem. Zpod hustého obočí na mě koukají krvavé oči. <i>Ne</i>. „P...Petře?“</p>
+<p>Než stihnu vyslovit cokoliv jiného skočí mi po krku. Padáme na zem v nekonečné sekvenci kotoulů, cítím zkažený dech a slyším hlasité vrčení doprovázené cvakáním zubů. Držím si jeho hlavu od těla, ale kůži na tváři mi drásají přerostlé nehty. Oba dva bestiálně řveme.</p>
+<p>Konečně se mi podaří vklínit nohu mezi nás a odkopnout ho. <i>To ne, znovu ne.</i> „Péťo, prosím...“ Začnou se mi mlžit oči.</p>
+<p>Rozběhne se na mě, já rychle uhnu stranou a zavřu branku. Začne si mě obcházet, hledá ten správný úhel. Po špinavém plnovousu mu stékají zpěněné sliny a přimhouřené oči vypadají ještě rudější. Odhalí řady zkažených zubů ve vražedném úšklebku. Skočí přes plot.</p>
+<p>Myslel jsem, že ho přechytračím, skáču ve stejnou chvíli na druhou stranu plotu, ale něco mě chytí za kotník. Spadnu na ruce a podaří se mi vyprostit v tak špatný moment, že to nedokážu zachránit do kotoulu. Než se vyškrábu na nohy už mi dýchá na krk. Rozběhnu se a přeskočím motorku. Zachrání mě štěstí. Odhadnu chvíli, kdy bude přeskakovat motorku Petr, otočím se společně s pravým hákem. Už předem mířím tam kde bude jeho hlava a uhádnu. Rána dopadne tvrdě na bradu, nebude to ale stačit. Využiji chvilkové dezorientace a podkopnu Sáře stojan. Není čas ji nastartovat, a tak ji jen shodím na Petra. Uslyším, jak mu Sára rozdrtí koleno a obličej se mi svraští v bolestné grimase.</p>
+<p>Sednu si na zem a rozvalím se ve vysoké trávě, těžce oddechuji a pozoruji mraky nade mnou. Po tvářích mi stékají slzy a štípou v četných škrábancích. Petr se mezitím vzpamatuje a začne zuřivě řvát. Mlátí sebou a škrábe asfalt před svým domem.</p>
+<p>„Já doufal...“</p>
+<p>„Aaaaaaaaaggggg! AAAAAAARRRGHHHH!“</p>
+<p>„Omlouvám se kamaráde.“</p>
+<p>Otočím se zvednu ze země kamennou dlaždici.</p>
+<p>Všechno jednou končí, říkám si.</p>]]></content:encoded></item><item><title><![CDATA[Of Jackdaw and Nightingale]]></title><description><![CDATA[A little poem I've written a while ago. Hope you'll enjoy it :) ##Of Jackdaw and Nightingale
+A big black bird sat on the ground and…]]></description><link>jackdaw_and_nightingale</link><guid isPermaLink="true">jackdaw_and_nightingale</guid><dc:creator><![CDATA[Nick]]></dc:creator><pubDate>Tue, 10 Mar 2020 00:00:00 GMT</pubDate><media:content url="https://nickrivulet.com/static/c131b51033e40498739b4322438d663a/18ec4/drawing.jpg" medium="image"/><content:encoded><![CDATA[<img src="https://nickrivulet.com/static/c131b51033e40498739b4322438d663a/18ec4/drawing.jpg"/><p>A little poem I've written a while ago. Hope you'll enjoy it :)</p>
+<hr>
+<p>##Of Jackdaw and Nightingale
+A big black bird sat on the ground and pondered. <br>
+'Pon grass so stark, day growing dark. <br>
+"Am I content?" He wondered and in his mind he saw a park. <br>
+A park so lush, of fruit aplenty. <br>
+Where was no rush, all worries were empty. <br>
+He sat on the grass, eyes but two slits, and drew a deep breath. <br>
+"Yes, I am." He said as the day drew darker still. <br>
+"You are what?" Pierced the darkness. A tiny squeal.<br>
+What was that? Someone testing his wits? Or should he be afraid of death?<br>
+With an open beak he scanned the trail to no success, his effort frail. Everything covered by a veil.<br>
+"Oh, Jackdaw. Frightened of me?" came from ahead. And there she appeared, a Nightingale. <br>
+"I fear naught." The Jackdaw cawed. <br>
+"And do not disturb me. I'm enjoying my peace." But he felt a stir in his heart, soul growing with unease.<br>
+"As you wish." The Nightingale crooned and flew away, playful spark in her eye. <br/></br></br></br></br></br></br></br></br></br></br></br></br></br></p>
+<p>A big black bird sat on the ground to ponder.<br>
+But it wasn't himself which made him wonder.<br>
+In his heart he felt a heat, a feeling he never knew.<br>
+Something danced in the wind, mesmerizing and Jackdaw flew. <br>
+Floating on the rhythm of melody so sweet. He begun to sing out of the blue. <br>
+Caw! Went the bird and the ground was trembling; sending the night back into silence. <br>
+"I'm sorry." He felt shame for causing the ending, causing such mess.<br>
+"Oh no, please continue." Came joyfully back to his address.<br>
+The stir became a coal and that coal became fire. The other voice joined him, 'cept it was much higher.<br>
+"I love your singing." Nightingale exclaimed. "Wish I could hear some more, but I would be late." <br>
+She thrust into the air. "Goodbye Jackdaw."<br>
+He picture her turn, flying away. <br>
+And the contentedness was gone. No more lush parks, days only shades of gray from this morning on. <br>
+"No, wait! I wish to go with!" <br>
+Nightingale stopped. "But it's too far a journey for you Jackdaw. And the sun there is always burning." <br>
+Sure of his heart, there was no turning. <br>
+"I have to at least try Nightingale!"<br/></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></p>
+<p>And thus they flew, higher and higher. And soon the world knew of their hearts desire.</p>
+<hr/></hr>]]></content:encoded></item><item><title><![CDATA[First post on my new blog]]></title><description><![CDATA[A blog's 'Hello world' I wanted to start this off somehow, but I don't currently have anything worth posting so at least I'm gonna post this…]]></description><link>first_post</link><guid isPermaLink="true">first_post</guid><dc:creator><![CDATA[Nick]]></dc:creator><pubDate>Sun, 08 Mar 2020 00:00:00 GMT</pubDate><media:content url="https://nickrivulet.com/static/898e8d3b33962fe511993cb60241a29c/fe802/hello-world.png" medium="image"/><content:encoded><![CDATA[<h2>A blog's 'Hello world'</h2>
+<img src="https://nickrivulet.com/static/898e8d3b33962fe511993cb60241a29c/fe802/hello-world.png"/><p>I wanted to start this off somehow, but I don't currently have anything worth posting so at least I'm gonna post this sort of a <i>Hello world</i> of blog posts.</p>
+<p>I'm going to tell you what's coming and share a little story from yesterday, so keep reading :D
+This blog is gonna go through some major changes in the future. A good friend of mine gave me this idea. See I've mostly ever used social media as means to an end, when I needed to contact someone. And this "sharing your thoughts with the internet" never really appeal to me, I like my ideas where they are, in my head. But I'll share some of them with you :)</p>
+<p>Right so about that first thing...</p>
+<h2>The plan</h2>
+<p><img src="https://imgs.xkcd.com/comics/time_management.png" alt="There&#x27;s xkcd for everything!"/></p>
+<p>I'm studying electrical engineering (which reminds me I have to update About me later) and love prototyping but as I only have a single Arduino, most of my projects end up dismantled just after getting them to half-assedly work :D (maybe it's for the better, the world remembers you for what they can see). But recently I've started learning Fusion 360 and with 3D printing the new projects could look somewhat decent. Maybe.</p>
+<p>My love for building stuff comes from my talent for programming, so some of the posts will almost certainly be solely about software. Right now, though, I don't have anything planned. See what languages I use in About me (if it ever gets updated).</p>
+<p>However, don't get the impression that this is gonna be some kind of a tech blog.<br>
+Nah.<br>
+It's going to be my blog and I'll post what I'm interested in. Meaning you can look forward to some poetry, songs and even sci-fi/fantasy novels and short stories :)</br></br></p>
+<p>The driving force in setting up a blog were engineering projects though, so it will be a sort of mish mash of stuff. We'll see how it turns out :D</p>
+<h2>The story</h2>
+<p><img src="https://i.imgur.com/BYscKo2.jpg" alt="An epic to be sure!"/></p>
+<p>The story is pretty cool. My friend and I went geocaching around where I live. There was this one cache we couldn't have found even if the world had depended on it. That was last summer, but the Fellowship never gives up. So, we've planned to go again in the winter when the foliage would hopefully not obfuscate every possible hiding spot. So, we went yesterday.</p>
+<p>Low and behold the cache couldn't have been easier to find :D It was just chilling there beneath a tree, a huge white bucket with a heavy stone on top...</p>
+<p>Ain't the end of the story though. Since we found the cache so fast, even though we didn't think we'd find it, the adventure had been improvised. So, we'd decided to go climb this really high hunter tower I remembered from years ago. Spoiler alert: the tower wasn't there. Not only that, my friend was also going to be late to the train station and would have to wait another hour. So, she had the brilliant idea of hitching a car... And it worked :D Surprisingly fast even. We'd only had to wait like ten minutes for a car to stop. Even more surprising was that the car was going in the opposite direction than we needed :D</p>
+<p>And don't worry the chances of two serial killers meeting each other are slim to none ;)</p>
+<iframe width="640" height="360" src="https://www.youtube.com/embed/xY4CUN19IY0">
+</iframe>]]></content:encoded></item><item><title><![CDATA[Quickly hack together an automated sensor capture unit]]></title><description><![CDATA[A little while back I came across this amazing machinist the story of whom you can find here. Now, I'm as much a machinist as an elephant is…]]></description><link>quick_hack</link><guid isPermaLink="true">quick_hack</guid><dc:creator><![CDATA[Nick]]></dc:creator><pubDate>Wed, 14 Jul 2021 00:00:00 GMT</pubDate><media:content url="https://nickrivulet.com/static/efecd9d40367ec0d16517eccd2131f51/0ef64/placeholder.png" medium="image"/><content:encoded><![CDATA[<h1>Quickly hack together an automated sensor capture unit</h1>
+<img src="https://nickrivulet.com/static/efecd9d40367ec0d16517eccd2131f51/0ef64/placeholder.png"/><p>A little while back I came across this <a href="https://www.youtube.com/channel/UCv1xxFkEiAdCVy6foEEUIvw" target="_blank">amazing machinist</a> the story of whom you can find <a href="https://www.youtube.com/watch?v=fAJ11GPfk9c" target="_blank">here</a>. Now, I'm as much a machinist as an elephant is a bird but in one of Ian's recent videos I had an epiphany! Cardboard!</p>
+<p>I had a pretty simple project planned for an automated water gauge capture, to keep track of our water usage, since our bill was just a little too high for my liking. Anyway, I've had the code done and begun designing the structural support when I came across Ian's Robin Hood video. It dawned upon me, that I didn't need to design shit, just cut a few holes in a box and you're done. Anyway, here's an incredibly easy way of making an automated image capturing device yourself.</p>
+<h3>Prerequisites</h3>
+<p>This is the hardest part, especially if your budget is nonexistent. All parts should be easily obtainable and rather cheap, although I know that is a very subjective claim.</p>
+<p>You'll need:</p>
+<ul>
+<li>ESP32-CAM</li>
+<li>External aerial</li>
+<li>5V power supply with at least 0.4A current</li>
+<li>Duct tape</li>
+</ul>
+<h3>Code</h3>
+<p>Not to take credit myself, the code is practically a modified combination of these two guides <a href="https://randomnerdtutorials.com/esp32-cam-post-image-photo-server/" target="_blank">[1]</a> <a href="https://randomnerdtutorials.com/esp32-cam-take-photo-save-microsd-card/" target="_blank">[2]</a></p>
+<p>I'll try to boil it down and explain the functionality below, for now, here's the entire code:</p>
+<div class="gatsby-highlight" data-language="cpp"><pre class="language-cpp"><code class="language-cpp"><span class="token comment">/*********
+  Rui Santos
+  Complete project details at 
+  https://WaterGaugeServer.com/esp32-cam-take-photo-save-microsd-card
+  
+  IMPORTANT!!! 
+   - Select Board "AI Thinker ESP32-CAM"
+   - GPIO 0 must be connected to GND to upload a sketch
+   - After connecting GPIO 0 to GND, press the ESP32-CAM on-board RESET 
+  button to put your board in flashing mode
+  
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files.
+  The above copyright notice and this permission notice shall be included in all
+  copies or substantial portions of the Software.
+*********/</span>
+
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"esp_camera.h"</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;Arduino.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;WiFi.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"FS.h"</span>                <span class="token comment">// SD Card ESP32</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"SD_MMC.h"</span>            <span class="token comment">// SD Card ESP32</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"soc/soc.h"</span>           <span class="token comment">// Disable brownour problems</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"soc/rtc_cntl_reg.h"</span>  <span class="token comment">// Disable brownour problems</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"driver/rtc_io.h"</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;EEPROM.h></span>            <span class="token comment">// read and write from flash memory</span></span>
+
+String <span class="token function">sendPhoto</span><span class="token punctuation">(</span>camera_fb_t <span class="token operator">*</span>afb<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// define the number of bytes you want to access</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">EEPROM_SIZE</span> <span class="token expression"><span class="token number">2</span></span></span>
+
+<span class="token comment">// Pin definition for CAMERA_MODEL_AI_THINKER</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">PWDN_GPIO_NUM</span>     <span class="token expression"><span class="token number">32</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">RESET_GPIO_NUM</span>    <span class="token expression"><span class="token operator">-</span><span class="token number">1</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">XCLK_GPIO_NUM</span>      <span class="token expression"><span class="token number">0</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">SIOD_GPIO_NUM</span>     <span class="token expression"><span class="token number">26</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">SIOC_GPIO_NUM</span>     <span class="token expression"><span class="token number">27</span></span></span>
+
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">Y9_GPIO_NUM</span>       <span class="token expression"><span class="token number">35</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">Y8_GPIO_NUM</span>       <span class="token expression"><span class="token number">34</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">Y7_GPIO_NUM</span>       <span class="token expression"><span class="token number">39</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">Y6_GPIO_NUM</span>       <span class="token expression"><span class="token number">36</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">Y5_GPIO_NUM</span>       <span class="token expression"><span class="token number">21</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">Y4_GPIO_NUM</span>       <span class="token expression"><span class="token number">19</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">Y3_GPIO_NUM</span>       <span class="token expression"><span class="token number">18</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">Y2_GPIO_NUM</span>        <span class="token expression"><span class="token number">5</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">VSYNC_GPIO_NUM</span>    <span class="token expression"><span class="token number">25</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">HREF_GPIO_NUM</span>     <span class="token expression"><span class="token number">23</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">PCLK_GPIO_NUM</span>     <span class="token expression"><span class="token number">22</span></span></span>
+
+<span class="token keyword">constexpr</span> <span class="token keyword">unsigned</span> waitSecond <span class="token operator">=</span> <span class="token number">1000000</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> <span class="token keyword">char</span><span class="token operator">*</span> ssid <span class="token operator">=</span> <span class="token string">"YOUR_WIFI"</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token keyword">char</span><span class="token operator">*</span> password <span class="token operator">=</span> <span class="token string">"YOUR_WIFI_PASSWORD"</span><span class="token punctuation">;</span>
+<span class="token keyword">constexpr</span> <span class="token keyword">int</span> serverPort <span class="token operator">=</span> <span class="token number">80</span><span class="token punctuation">;</span>
+
+String serverName <span class="token operator">=</span> <span class="token string">"192.168.1.12"</span><span class="token punctuation">;</span>
+String serverPath <span class="token operator">=</span> <span class="token string">"/upload.php"</span><span class="token punctuation">;</span>
+
+WiFiClient client<span class="token punctuation">;</span>
+
+<span class="token keyword">bool</span> connectFail <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+
+<span class="token keyword">void</span> <span class="token function">setup</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token function">WRITE_PERI_REG</span><span class="token punctuation">(</span>RTC_CNTL_BROWN_OUT_REG<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//disable brownout detector</span>
+  <span class="token keyword">unsigned</span> connectIter <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+  connectFail <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+
+  Serial<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token number">115200</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">pinMode</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">,</span> OUTPUT<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  
+  WiFi<span class="token punctuation">.</span><span class="token function">mode</span><span class="token punctuation">(</span>WIFI_STA<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  Serial<span class="token punctuation">.</span><span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"Connecting to "</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  Serial<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>ssid<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">delay</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  WiFi<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span>ssid<span class="token punctuation">,</span>password<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">delay</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">while</span><span class="token punctuation">(</span>WiFi<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">!=</span> WL_CONNECTED<span class="token punctuation">)</span>
+  <span class="token punctuation">{</span>
+    Serial<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span><span class="token string">'.'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    connectIter<span class="token operator">++</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">if</span><span class="token punctuation">(</span>connectIter <span class="token operator">></span> <span class="token number">10</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+      connectFail <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+      <span class="token keyword">break</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token function">delay</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>connectFail<span class="token punctuation">)</span>
+  <span class="token punctuation">{</span>
+    Serial<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span><span class="token string">'\n'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    Serial<span class="token punctuation">.</span><span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"ESP32-CAM IP Address: "</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    Serial<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>WiFi<span class="token punctuation">.</span><span class="token function">localIP</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+
+  camera_config_t config<span class="token punctuation">;</span>
+  config<span class="token punctuation">.</span>ledc_channel <span class="token operator">=</span> LEDC_CHANNEL_0<span class="token punctuation">;</span>
+  config<span class="token punctuation">.</span>ledc_timer <span class="token operator">=</span> LEDC_TIMER_0<span class="token punctuation">;</span>
+  config<span class="token punctuation">.</span>pin_d0 <span class="token operator">=</span> Y2_GPIO_NUM<span class="token punctuation">;</span>
+  config<span class="token punctuation">.</span>pin_d1 <span class="token operator">=</span> Y3_GPIO_NUM<span class="token punctuation">;</span>
+  config<span class="token punctuation">.</span>pin_d2 <span class="token operator">=</span> Y4_GPIO_NUM<span class="token punctuation">;</span>
+  config<span class="token punctuation">.</span>pin_d3 <span class="token operator">=</span> Y5_GPIO_NUM<span class="token punctuation">;</span>
+  config<span class="token punctuation">.</span>pin_d4 <span class="token operator">=</span> Y6_GPIO_NUM<span class="token punctuation">;</span>
+  config<span class="token punctuation">.</span>pin_d5 <span class="token operator">=</span> Y7_GPIO_NUM<span class="token punctuation">;</span>
+  config<span class="token punctuation">.</span>pin_d6 <span class="token operator">=</span> Y8_GPIO_NUM<span class="token punctuation">;</span>
+  config<span class="token punctuation">.</span>pin_d7 <span class="token operator">=</span> Y9_GPIO_NUM<span class="token punctuation">;</span>
+  config<span class="token punctuation">.</span>pin_xclk <span class="token operator">=</span> XCLK_GPIO_NUM<span class="token punctuation">;</span>
+  config<span class="token punctuation">.</span>pin_pclk <span class="token operator">=</span> PCLK_GPIO_NUM<span class="token punctuation">;</span>
+  config<span class="token punctuation">.</span>pin_vsync <span class="token operator">=</span> VSYNC_GPIO_NUM<span class="token punctuation">;</span>
+  config<span class="token punctuation">.</span>pin_href <span class="token operator">=</span> HREF_GPIO_NUM<span class="token punctuation">;</span>
+  config<span class="token punctuation">.</span>pin_sscb_sda <span class="token operator">=</span> SIOD_GPIO_NUM<span class="token punctuation">;</span>
+  config<span class="token punctuation">.</span>pin_sscb_scl <span class="token operator">=</span> SIOC_GPIO_NUM<span class="token punctuation">;</span>
+  config<span class="token punctuation">.</span>pin_pwdn <span class="token operator">=</span> PWDN_GPIO_NUM<span class="token punctuation">;</span>
+  config<span class="token punctuation">.</span>pin_reset <span class="token operator">=</span> RESET_GPIO_NUM<span class="token punctuation">;</span>
+  config<span class="token punctuation">.</span>xclk_freq_hz <span class="token operator">=</span> <span class="token number">20000000</span><span class="token punctuation">;</span>
+  config<span class="token punctuation">.</span>pixel_format <span class="token operator">=</span> PIXFORMAT_JPEG<span class="token punctuation">;</span> 
+  
+  <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">psramFound</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token comment">// FRAMESIZE_ + QVGA|CIF|VGA|SVGA|XGA|SXGA|UXGA</span>
+    config<span class="token punctuation">.</span>frame_size <span class="token operator">=</span> FRAMESIZE_SVGA<span class="token punctuation">;</span>
+    config<span class="token punctuation">.</span>jpeg_quality <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
+    config<span class="token punctuation">.</span>fb_count <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    config<span class="token punctuation">.</span>frame_size <span class="token operator">=</span> FRAMESIZE_CIF<span class="token punctuation">;</span>
+    config<span class="token punctuation">.</span>jpeg_quality <span class="token operator">=</span> <span class="token number">12</span><span class="token punctuation">;</span>
+    config<span class="token punctuation">.</span>fb_count <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  
+  <span class="token comment">// Init Camera</span>
+  esp_err_t err <span class="token operator">=</span> <span class="token function">esp_camera_init</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>config<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">if</span><span class="token punctuation">(</span>err <span class="token operator">!=</span> ESP_OK<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    Serial<span class="token punctuation">.</span><span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Camera init failed with error 0x%x\n"</span><span class="token punctuation">,</span> err<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">delay</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    ESP<span class="token punctuation">.</span><span class="token function">restart</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token comment">// initialize EEPROM with predefined size</span>
+  EEPROM<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span>EEPROM_SIZE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">if</span> <span class="token expression"><span class="token number">0</span></span></span>
+    EEPROM<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    EEPROM<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    EEPROM<span class="token punctuation">.</span><span class="token function">commit</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">endif</span></span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">void</span> <span class="token function">loop</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  camera_fb_t <span class="token operator">*</span> fb <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// Take Picture with Camera</span>
+  Serial<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Taking a photo!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">digitalWrite</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">,</span> HIGH<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">delay</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  fb <span class="token operator">=</span> <span class="token function">esp_camera_fb_get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+  <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>fb<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    Serial<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Camera capture failed"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    ESP<span class="token punctuation">.</span><span class="token function">restart</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token function">delay</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">digitalWrite</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">,</span> LOW<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  Serial<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Done taking a photo!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment">//Serial.println("Starting SD Card");</span>
+  <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>SD_MMC<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    Serial<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"SD Card Mount Failed"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  
+  <span class="token keyword">uint8_t</span> cardType <span class="token operator">=</span> SD_MMC<span class="token punctuation">.</span><span class="token function">cardType</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">if</span><span class="token punctuation">(</span>cardType <span class="token operator">==</span> CARD_NONE<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    Serial<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"No SD Card attached"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  
+  <span class="token comment">// Increment EEPROM counter</span>
+  <span class="token keyword">int</span> num0 <span class="token operator">=</span> EEPROM<span class="token punctuation">.</span><span class="token function">read</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span>
+  <span class="token keyword">int</span> num1 <span class="token operator">=</span> EEPROM<span class="token punctuation">.</span><span class="token function">read</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">int</span> pictureNumber <span class="token operator">=</span> num1<span class="token operator">*</span><span class="token number">255</span> <span class="token operator">+</span> num0<span class="token punctuation">;</span>
+
+  <span class="token comment">// Path where new picture will be saved in SD Card</span>
+  String path <span class="token operator">=</span> <span class="token string">"/picture"</span> <span class="token operator">+</span> <span class="token function">String</span><span class="token punctuation">(</span>pictureNumber<span class="token punctuation">)</span> <span class="token operator">+</span><span class="token string">".jpg"</span><span class="token punctuation">;</span>
+
+  fs<span class="token double-colon punctuation">::</span>FS <span class="token operator">&amp;</span>fs <span class="token operator">=</span> SD_MMC<span class="token punctuation">;</span> 
+  Serial<span class="token punctuation">.</span><span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Picture file name: %s\n"</span><span class="token punctuation">,</span> path<span class="token punctuation">.</span><span class="token function">c_str</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  
+  File file <span class="token operator">=</span> fs<span class="token punctuation">.</span><span class="token function">open</span><span class="token punctuation">(</span>path<span class="token punctuation">.</span><span class="token function">c_str</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> FILE_WRITE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>file<span class="token punctuation">)</span>
+  <span class="token punctuation">{</span>
+    Serial<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Failed to open file in writing mode"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> 
+  <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    file<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span>fb<span class="token operator">-></span>buf<span class="token punctuation">,</span> fb<span class="token operator">-></span>len<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// payload (image), payload length</span>
+    Serial<span class="token punctuation">.</span><span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Saved file to path: %s\n"</span><span class="token punctuation">,</span> path<span class="token punctuation">.</span><span class="token function">c_str</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>num0 <span class="token operator">&lt;</span> <span class="token number">255</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+      EEPROM<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> num0<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      EEPROM<span class="token punctuation">.</span><span class="token function">commit</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">else</span>
+    <span class="token punctuation">{</span>
+      num1<span class="token operator">++</span><span class="token punctuation">;</span>
+      EEPROM<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      EEPROM<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span>num1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      EEPROM<span class="token punctuation">.</span><span class="token function">commit</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment">// Close shit up</span>
+  file<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  SD_MMC<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token function">sendPhoto</span><span class="token punctuation">(</span>fb<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token function">esp_camera_fb_return</span><span class="token punctuation">(</span>fb<span class="token punctuation">)</span><span class="token punctuation">;</span> 
+  <span class="token function">esp_deep_sleep</span><span class="token punctuation">(</span>waitSecond<span class="token operator">*</span><span class="token number">60</span><span class="token operator">*</span><span class="token number">15</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+String <span class="token function">sendPhoto</span><span class="token punctuation">(</span>camera_fb_t <span class="token operator">*</span>afb<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  String getAll<span class="token punctuation">;</span>
+  String getBody<span class="token punctuation">;</span>
+  
+  Serial<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  Serial<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Connecting to server: "</span> <span class="token operator">+</span> serverName<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>client<span class="token punctuation">.</span><span class="token function">connect</span><span class="token punctuation">(</span>serverName<span class="token punctuation">.</span><span class="token function">c_str</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> serverPort<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    Serial<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Connection successful!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    
+    String head <span class="token operator">=</span> <span class="token string">"--WaterGaugeServer\r\nContent-Disposition: form-data; name=\"imageFile\"; filename=\"esp32-cam.jpg\"\r\nContent-Type: image/jpeg\r\n\r\n"</span><span class="token punctuation">;</span>
+    String tail <span class="token operator">=</span> <span class="token string">"\r\n--WaterGaugeServer--\r\n"</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">uint32_t</span> imageLen <span class="token operator">=</span> afb<span class="token operator">-></span>len<span class="token punctuation">;</span>
+    <span class="token keyword">uint32_t</span> extraLen <span class="token operator">=</span> head<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> tail<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">uint32_t</span> totalLen <span class="token operator">=</span> imageLen <span class="token operator">+</span> extraLen<span class="token punctuation">;</span>
+  
+    client<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"POST "</span> <span class="token operator">+</span> serverPath <span class="token operator">+</span> <span class="token string">" HTTP/1.1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    client<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Host: "</span> <span class="token operator">+</span> serverName<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    client<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Content-Length: "</span> <span class="token operator">+</span> <span class="token function">String</span><span class="token punctuation">(</span>totalLen<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    client<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Content-Type: multipart/form-data; boundary=WaterGaugeServer"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    client<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    client<span class="token punctuation">.</span><span class="token function">print</span><span class="token punctuation">(</span>head<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  
+    <span class="token keyword">uint8_t</span> <span class="token operator">*</span>afbBuf <span class="token operator">=</span> afb<span class="token operator">-></span>buf<span class="token punctuation">;</span>
+    size_t afbLen <span class="token operator">=</span> afb<span class="token operator">-></span>len<span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>size_t n<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span> n<span class="token operator">&lt;</span>afbLen<span class="token punctuation">;</span> n<span class="token operator">=</span>n<span class="token operator">+</span><span class="token number">1024</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>n<span class="token operator">+</span><span class="token number">1024</span> <span class="token operator">&lt;</span> afbLen<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        client<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span>afbBuf<span class="token punctuation">,</span> <span class="token number">1024</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        afbBuf <span class="token operator">+=</span> <span class="token number">1024</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>afbLen<span class="token operator">%</span><span class="token number">1024</span><span class="token operator">></span><span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        size_t remainder <span class="token operator">=</span> afbLen<span class="token operator">%</span><span class="token number">1024</span><span class="token punctuation">;</span>
+        client<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span>afbBuf<span class="token punctuation">,</span> remainder<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>   
+    client<span class="token punctuation">.</span><span class="token function">print</span><span class="token punctuation">(</span>tail<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token keyword">int</span> timoutTimer <span class="token operator">=</span> <span class="token number">10000</span><span class="token punctuation">;</span>
+    <span class="token keyword">long</span> startTimer <span class="token operator">=</span> <span class="token function">millis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    boolean state <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+    
+    <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>startTimer <span class="token operator">+</span> timoutTimer<span class="token punctuation">)</span> <span class="token operator">></span> <span class="token function">millis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      Serial<span class="token punctuation">.</span><span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token function">delay</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">;</span>      
+      <span class="token keyword">while</span> <span class="token punctuation">(</span>client<span class="token punctuation">.</span><span class="token function">available</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">char</span> c <span class="token operator">=</span> client<span class="token punctuation">.</span><span class="token function">read</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>c <span class="token operator">==</span> <span class="token string">'\n'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token keyword">if</span> <span class="token punctuation">(</span>getAll<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> state<span class="token operator">=</span><span class="token boolean">true</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+          getAll <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>c <span class="token operator">!=</span> <span class="token string">'\r'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> getAll <span class="token operator">+=</span> <span class="token function">String</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>state<span class="token operator">==</span><span class="token boolean">true</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> getBody <span class="token operator">+=</span> <span class="token function">String</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+        startTimer <span class="token operator">=</span> <span class="token function">millis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>getBody<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">></span><span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">break</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    Serial<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    client<span class="token punctuation">.</span><span class="token function">stop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    Serial<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>getBody<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    getBody <span class="token operator">=</span> <span class="token string">"Connection to "</span> <span class="token operator">+</span> serverName <span class="token operator">+</span>  <span class="token string">" failed."</span><span class="token punctuation">;</span>
+    Serial<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>getBody<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">return</span> getBody<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre></div>]]></content:encoded></item><item><title><![CDATA[TITLE]]></title><description><![CDATA[This is a placeholder title for my template page So, how are you doing Dom? I hope you're taking good care of yourself and not getting…]]></description><link>SLUG</link><guid isPermaLink="true">SLUG</guid><dc:creator><![CDATA[Nick]]></dc:creator><pubDate>Thu, 01 Jan 1970 00:00:00 GMT</pubDate><media:content url="https://nickrivulet.com/static/efecd9d40367ec0d16517eccd2131f51/0ef64/placeholder.png" medium="image"/><content:encoded><![CDATA[<h2>This is a placeholder title for my template page</h2>
+<img src="https://nickrivulet.com/static/efecd9d40367ec0d16517eccd2131f51/0ef64/placeholder.png"/><p>So, how are you doing Dom? I hope you're taking good care of yourself and not getting fucked by the system. Also hope you ain't ignoring your times political and social issues, those are always going to be important. Do take frequent breaks though &#x3C;3</p>]]></content:encoded></item><item><title><![CDATA[A Warhammer fan fiction]]></title><description><![CDATA[Prologue Hunger woke it. It did not know where it was nor did it care, for this savage creature there was only the hunt and then deep…]]></description><link>warhammer</link><guid isPermaLink="true">warhammer</guid><dc:creator><![CDATA[Nick]]></dc:creator><pubDate>Tue, 31 Mar 2020 00:00:00 GMT</pubDate><content:encoded><![CDATA[<p>Prologue</p>
+<p>Hunger woke it. It did not know where it was nor did it care, for this savage creature there was only the hunt and then deep slumber. And luckily the underhive of the Choral City was sprawling with prey.</p>
+<p>The beast shivered, stretching its stiffened muscles, scratching the musky concrete walls with the diamond shaped scales covering its body. The world around was but a smudge, its main two eyes had not yet adjusted from the long hibernation. As a lump of light came into focus it slithered towards the entrance of the den. Whole body still aching, tendons going taut and then loosening again, metabolism kicking into higher gear as waves of warmth spread from its spine, preparing for a good hunt. Soon there would be fresh meat in its belly. Soon it would enjoy the thrill of catching an unaware victim.</p>
+<p>It crawled out of the long abandoned manufactorum building that had been its lair and instinctively followed the darkest path, avoiding unwanted attention. There were vibrations shaking up the ground, far too many to be a lonely wanderer, and an all too familiar feeling accompanied them... How long had it slept? Humans this close to its den? Dangerous. Its heart raced and the scales on its back made a rattling sound as it shivered. The creature usually knew better than to sneak around human settled parts of the hive but the hunger was a driving force not to be recon with, too primal not to take the risk. It took to the ceiling.</p>
+<p>It climbed up the crumbling walls of the manufactorum. Above its head were only more and more layers of steel and concrete. Such was the creatures entire reality; a never ending mass of structures, supports and pipes. Or so the creature though. And because there had always been an abundance of food with no real danger in sight, it stayed within its small territory of the underhive. Occasionally venturing to explore new places, crawling and sneaking through the countless pipes and old ruins of the cities of the past that the hive was build upon, but never too far, never even thinking to. Hunting and slumbering for years at a time, that was its cycle, its law of things, repeated over and over for many centuries.</p>
+<p>Yet the current cycle was unique. A gang of sorts had made its base near the predators den. Apparently a successful gang for it grew into a bustling city of its own. People were walking down the streets among the many shops in the market below, where the creature would usually wait for an ambush. Too many people. It couldn't see them properly with its two main eyes from all the way up the high ceiling, but it could feel their essence with a much smaller, almost vestigial, third eye sitting on its forehead. A burning lake of fire. Only a human's soul could burn this brightly, each individual like a bonfire to the beast's ethereal sense.</p>
+<p>It could read their thoughts. Not words of course but images and feelings, partly alien but the majority was interpretable. Some of them were offering services of pleasure, almost blinding the creature with their lust. While others felt pure hatred, flashing with rage. There were those envious of the success of others, plotting to steal it from them. What they did not know however was that those others envied everybody around and were distrustful even of their own kin. And then there were darker images, from humans whose souls did not burn nearly as brightly but who desired the light of others. Images of pleasure killings, ritual murder, gore and violence.</p>
+<p>Among them walked guards and thugs with lasguns wearing plated armor.
+The beast put its tongue to a hole where once had been a razor sharp fang. It had experienced preying on these types of shelled humans before. A hard lesson to be learned, its teeth had proven too brittle and getting the meat out of the shell was no simple task without any hands.
+A woman's shriek reached the ceiling, two of the dimmer fires were enjoying her anguish as they dragged her down an alley, away from the main street. The hunger was exhausting, but hunting here would have been impossible. The instinctual self preservation made it move elsewhere, reluctantly, into an unknown territory. Would it catch some prey or would it be preyed upon? It had only one way to find out.</p>
+<p>The town seemed to stretch as far as the layers of concrete above and the hunger was wearing it out but finally the beast reached its outskirts. Only there seemed to be too much light coming from further away from the city. Along with the hunger, another instinct had surfaced: curiosity. It moved towards that brighter place, climbing up a fallen clock tower and once it made it to the roof the creature saw the outside for the first time in its long life.</p>
+<p>Fear gripped it as its scales rattled again. The confines of its entire universe had fallen apart to reveal a world so unfathomably large. A desolate ring was surrounding the Choral City's base walls, it was a toxic wasteland, but further beyond there were vast stretches of occupied territory. Ancient forests growing in regions that had been deemed sacred hundreds of years before and stayed as such because of the Imperiums convoluted bureaucracy. However those were far and few between in the grand landscape. Among them or rather surrounding them were even more cities. Flat, unlike the hives, but still enormous, each stretching to the horizon. The beast slithered off the roof of the half collapsed clock tower and towards a concrete overhang. It looked up and saw towers upon towers, a gargantuan structure that was the Choral City. Its peak disappearing in the clouds above. And right below where the creature had stopped. Prey. A bunch of human children in tattered clothes playing in the warm sunny day. None of them in armor, non of them with guns. Perfect.</p>
+<p>It slithered back to the fallen clock tower and took a more stealthy approach. As it climbed down the vibrations became more clear and regular, the children were busy playing. Good.
+The beast hid on top of a large pipe leading out to the wastelands surrounding the Choral City and crawled all the way to the bent beneath which the prey was playing.</p>
+<p>"Paper!"</p>
+<p>"Stone! Ah, damn it!"</p>
+<p>The children were laughing. "It's Tommy! Run!" One of them shouted and all but one had scuttled away.</p>
+<p>The lone child sighed and started counting aloud. "Twenty. Nineteen..."</p>
+<p>Now was its chance. With the other children out of sight, it could paralyze its victim and be gone before anyone noticed. It could feel the warm blood on its tongue already which was only driving the hunger more urgent. The creature dropped, slowly, from the arching pipe to the concrete platform below.</p>
+<p>"Ten. Nine..."</p>
+<p>It moved silently towards its unsuspecting victim. The third eye started glowing, first red as power started to gather inside of its skull then yellow. Once the eye glowed white it was ready to strike.</p>
+<p>"Three. Two. One. Here. I. Come!" In that moment the boy in a tattered leather jacket turned to face it. No matter, the beast let go of all the energy from its third eye. Only it wasn't glowing anymore, all the power was gone. It panicked and tried to run but could not move. It fully opened the third eye but alas could not channel any energy. And that's when it noticed. This boy, this... monster did not have any light.</p>
+<p>The boy let out a cheerful laughter. "A new pet! Wonderful! Momma forbid me to control humans so you will have to do."</p>
+<p>Chapter I</p>
+<p>Protected by the Gellar Field from the volatile forces of the Imaterium Marcus Goliath of the World Eaters legion had a dream that became lucid. It was quite rare for an Astartes to dream, for they needed little sleep if any at all, and rarer still for the dreamer to become lucid. As it was, he returned to a very vivid memory from his childhood. One of blood and horror, inducing a familiar feeling of fear even in his now gene enhanced body.</p>
+<p>In the memory he'd been playing with other children on his home world. A type of planet he would later learn was classified as a death world. It was his and his brother's turn to skid the sand dunes of the great Miamabi desert. They and their friends had been waiting for the winter festivities to start so they'd be relived of their duties and let out for longer than a few hours. There was Rizark the son of Gotmoth of the traders guild, Lilly and Garza, sisters from a respected farmer family but also Shanko a child beggar and Rosse daughter of a corrupt Administrator. And of course there were Marcus and his brother, sons of a retired general and his late wife who, according to their father, used to travel the void between stars. Each of the children lived a harsh life which could have hardly been called a childhood and so they took every chance they got to go out and do something stupid. This time it came to dune surfing in an abandoned sector far away from the city walls. They were no fools, this zone should have been secure, but they were so horribly wrong.</p>
+<p>"Wait! The ramp keeps falling apart!" Called the large bodied Rizark from the bottom of the dune. "It wouldn't be fair. When I was going the ramp was at least twice as high! At least!"</p>
+<p>Marcus laughed. "Make it as tall as the spires of the palace for all I care Riz. You wouldn't have eaten sand today, if you weren't so damn fat."
+The rest of the children started giggling and tried to hide it, looking away as Rizark's gaze snapped at them.</p>
+<p>Rizark's cheeks flushed red, but he showed a malicious smile of small white teeth. "You'll be eating sand once you get down here Marcus, I'll make sure of that!" He rhythmically stomped on the sand next to the ramp and yelled with a wide grin and an overly wide armed gesture. "I summon thee, o' great sand worm of the Miamabi wastes! The rhythm attracts!" Upon which he proceeded to do a little dance like the foolish old man who was eaten by a worm from the tales they were told when they were little.
+This time Marcus joined the other children in their laughter which put an end to their boyish banter. Still laughing, Mark looked at the girls and saw Lilly eyeing him. With the boosted confidence of a young teenager doped with hormones he turned to his brother and nodded. No words needed to be said, his brother handed him the plank. One last glance at the girls and a wink at Lilly and down the dune he went. Gaining on speed, the wind started whistling in his ears. He must have looked like a smudge to anyone else observing his descend, that's how fast he was going down that sand dune. Finally, moments before the ramp, he crouched down, letting the palm of his right hand braze the fine golden sand. And as he jumped off the ramp he grabbed the plank that had been his sand board and flipped backwards in the air. He would have nailed it too, surely, if he was going just a bit faster. But he'd miscalculated. As much as he felt like a lightning going down that hill, he'd only gotten four fifths of the flip before the plank got knocked out of his hands and Marcus was sent into a never ending spiral. His ears were ringing from how hard he'd hit his head and when he looked at where the other children were standing he wasn't sure if the concussion had not been too severe. Because there were no children anymore. Ringing in his ears slowly faded away and had been replaced by something far worse. Screams of terror resonated through his skull as if he had hit it on the ground again. Marcus looked at the tangled, sand covered mess in front of him and saw what remained of Rosse and Garza. He looked further and saw Lilly screaming at the top of her lungs, looking towards something behind the bend of the dune. Marcus got up, struggling to keep his knees from shaking too much. The world went into a spiral again but only for a moment, when it had passed he dashed for Lilly and immediately stopped when he saw it. A Sand Lion. Native beast of the Miamabi desert.</p>
+<p>It was feeding, giving no thought to the wailing Lilly or the agonizing screams of Rizark, whom it was eating alive. Marcus was star stricken, he wanted to move but he couldn't. And that's when the dream became lucid. Suddenly he wasn't a teenager living on a death world anymore. He was a Space Marine. Human made demigod by the Emperor of Mankind himself. He looked at the horrible scene not with pure fear, but with a mixture of wonder and amusement. Amusement because back then he'd naively thought that, for the rest of his life, he would have never had to witness anything worse than this. And wonder, because he saw his brother charge at the beast with only the wooden plank in hand. But it wasn't his brother anymore. For all lucidity he could muster, he had never seen this boy that was charging the Sand Lion, yet he seemed awfully familiar. Like recognizing a friend in a crowd just by their style of walking, but not being absolutely sure. The boy finished his brave charge and, unsurprisingly, the beast merely impaled him on its giant claws. What stuck with Marcus the most however were the boys eyes. They were looking directly at him. Damning eyes as if blaming him for taking no action. And that was it, then he woke up.</p>
+<p>What a strange dream he thought. And not entirely true either. They had killed the Sand Lion that day, he and his brother, through cooperation and cunning just like their father taught them. A deed which would catch the eye of a Legio Astartes recruiter on their planet, earning them a place in the Legion and changing their lives forever. His brother hadn't died that day, he would die years later, strapped to the Apothecary's table while getting his Butchers Nails implanted.</p>
+<p>The battle hardened space marine got up from his bed and as usual went to wash his face in the bathrooms sink. A servo skull had come to life and flew over to Marcus, hovering next to his head when he looked up at the reflection in the mirror. "Schedule!" He commanded and the skulls unmoving jaws answered in a robotic voice: "Twelve o'clock: Train neophytes in combat. Sixteen o'clock: The pit."</p>
+<p>He scowled at the hovering servitor. "Leave." The skull happily abided its master's wishes and soon the buzzing of its anti-gravity generator had stopped as it landed on its platform. Training neophytes today, Marcus thought, a bunch of kids no older than he was when he had gone through the initiation. No doubt barely standing after undergoing gene therapies and organ augmentations. But such was the way. Weed out the weak so that the legion would grow ever stronger. He still pitied the boys who didn't make it however. Well, today was their lucky day, trainings with Marcus Goliath had their own procedure as had many other things because none would dare to oppose him. None in the eleventh assault company anyway because that's where the undesirables had always been sent.</p>
+<p>Marcus stopped the tap of the sink and went to grab a meal. In his living room, right next to the trophies he had brought from numerous battles, stood a refrigerator. It was technology from a bygone age, it's mechanical workings long forgotten. And it kept his food fresh. Marcus gabbed a flak of cooked meat and some algae. It was dull and tasteless but it was high in calories, essential to support his unnaturally overgrown body.</p>
+<p>When he no longer felt hungry he had donned the usual ship attire: a white robe with a dark blue cloak, a belt to hold his knife and a pair of slippers. He opened the doors to leave and paused, thinking, then he reached over to the left, grabbed his power sword, swung it over his shoulder and left. It was nearly noon.</p>
+<p>The training pit had a sand floor just like that of the star ships main Colosseum except for the cavea to seat the spectators which was replaced here by cold metal walls. A group of twenty odd Astarte initiates was standing in a line waiting for their tutor to show. Under the blueish light of the pit's fluorescent tubes they truly looked like the angels of death some of them would one day become. Each a stone hard face sharpened by shadows cast by the lights above, one would almost be fooled to think they were mere life like statues, not living things of flesh. And in a sense, they too were chiseled by the hand of a masterful craftsman, elevated above mortal men by the grace of the Emperor of Mankind.</p>
+<p>When Marcus finally stepped through the doors and entered the pit none of them turned or showed any motion whatsoever, just like they had been trained to. And so even as Centurion Marcus Goliath of the eleventh Assault Company lifted his sword which had sparked to life with incandescent light and plunged it into the sand in front of him, the neophytes stood still.</p>
+<p>"At ease!" He started and finally the recruits looked at the weapon laid before them. "Whoever touches the hilt gets to keep it. The only thing standing between you and one of only a handful of power swords in the entire legion is me." He threw his blue cloak to the ground and widened his stance.</p>
+<p>The initiates looked dumbfounded for a moment before the first few started looking at each other and the sword in front of them. Although they were not yet full fledged space marines their reflexes and abilities still far outmatched that of an ordinary human. The second boy from the right gathered enough courage and made a small cautious step forward eyeing the weapon. In a heartbeat he covered the distance between himself and the sword. He stretched out his arm so close as to almost touch it, only to have it be grabbed by a blur and be sent flying at the nearest wall. Three others, who were planning on using the distraction provided by their brother, stopped in their tracks surprised by the sheer speed of the sole defender. They circled Marcus, weighting their options, surely no single man could defend an object from all twenty of them.</p>
+<p>"Come on! We all know why you've been assigned to eleventh! Use everything you've got!"</p>
+<p>The boy positioned behind Marcus decided it was worth a shot and attacked. At the same time the two others went after the sword. Marcus kicked his cloak at the boy behind, blinding him, causing him to stumble and miss the sword entirely. Then Marcus simply used the boys momentum and redirected it towards the closest challenger leaving them both mangled on the ground. Sudden tingle touched his brain and the Butcher's nails writhed. The third neophyte closest to the sword was an illusion. Marcus punched into empty air, extra hard to teach a lesson. The punch was met with a meaty thud and the gasp of a man getting the wind knocked out of. A figure appeared to materialize out of thin air and be thrown against the metal wall.</p>
+<p>"Use your gifts, but be smart about it. Remember who you're fighting!"</p>
+<p>The rest still remained in their trained lines, but Marcus could feel their eagerness to fight, their blood lust. He grinned. A war cry resonated through the training pit as the young initiates ran forward. A strong sixteen of gene enhanced super humans charged at the sword in front of Marcus. They believed they had a chance since it only took three of them to get a width of a hair close, but their hope was false. Marcus didn't even break a sweat as he predicted each assault and redirected the attackers away from the unmoving sword sticking out of the sand floor, punching and kicking where he knew it would hurt, so they wouldn't get back up so easily. But when the pit was filled with moaning bruised novice space marines there was still one left standing, barely. He clutched at his stomach where Marcus had landed with his fist. The last man standing spat blood to the side and swiped it off his lips, slowly straightening up. His brown eyes were burning with battle hunger, with viciousness own only to the World Eaters and their gene father Angron. His muscles went taut and he charged. Marcus was ready to defend his prized possession but he was caught off guard. The lone neophyte didn't go for the sword, instead he grabbed Marcus's cloak off the ground and prepared to whip it at the power sword, no doubt hitting the hilt with its end. The Centurions blood had flushed with adrenalin, he hadn't expected this much clarity from an enraged neophyte. But he couldn't allow the boy to win. He let go of the Nails. Red anger had gripped his mind as the mechanical tendrils drove ever deeper into his brain with each heartbeat. Thump thump. He could feel a tingle at the back of his skull as his opponent or one of the lying neophytes tried to cloud his mind with sorcery. That only made the Nails more irritated. The poor novice had barely gotten half way though his attempt when Marcus had already caught the hand that held his cloak. And with a horrible sound he crushed the boys bones like a bundle of twigs. Thump thump. Marcus didn't stop there, he couldn't, the Nails drove him. He punched the boy, not with a sparing punch, but with the full strength of a demigod. The boys jaw came loose as it was torn out of its left joint into a right angle and he tumbled through the sand before stopping at the far end of the pit. Thump thump. Finally, three heartbeats later, Marcus regained some control. He focused his own gift upon the raging waves of emotion driving his battle hunger and crushed it into a tiny volatile pebble. The Nail's became agitated, as they always did when they were denied any more bloodshed. He unleashed a storm but as a prize had to withstand a hurricane. He stood still for a couple heartbeats more and then turned to address the defeated neophytes.</p>
+<p>"Enough whining, stand up! As usual nobody bothered to teach you how to utilize your talents. I am not going to be responsible for you killing your own squad just because you don't know your true potential. Make groups of five! We'll be practicing cooperative combat for the rest of the day." He scanned the room and immediately picked out the strongest psycher. A red haired boy with green eyes who was already on his feet.</p>
+<p>Marcus locked eyes with him. "Do you know what to do to help him?" He asked and the boy nodded. "Then do it and take him to the Apothecary before his jaw fuses like that." The neophyte ran towards his moaning brother, kneeling beside him and placed his hand on the poor boys forehead. He winced and his face changed into a pained expression. The injured novice calmed down, smiling at his brother. "Nearly got him Vlad. We did good." A faint thought carried over to Marcus. They really did, he thought as remorse ate at his soul, perhaps he didn't have to use the Nails. But the body of an Astartes heals incredibly fast, the boy will be ready to make planet fall by tomorrow morning.</p>
+<p>When the lesson was over the neophytes stood back in the same line as when it had started. But they hadn't resembled cold stone statues anymore. They were brothers, even if resented by their own legion, they would have each others backs. They were taught that sorcery was used by cowards, that their own gene-father would murder them on sight if he ever found out. But here, at last, they were among their own kin. They were the sliver that remained of what the World Eaters were meant to be, each of them an empathetic caring individual scorched by the mad rule of Angron. They were all silent, but Marcus could feel their communal spirit. An ability he had taught them just as his master had taught him. A gift from their gene-seed which was all but eradicated in the rest of their legion. He looked at them and the vibrant aura of calm surrounding them one last time.</p>
+<p>"Tomorrow some of you will join us as scouts in the assault on the rebel planet. Remember what you have learned today and do not let your hot temper get the better of you, else your first battle may well be your last. Dismissed!" With that Marcus picked up his power sword and turned to leave.</p>
+<p>On the way back to his quarters he wanted to stop at the Colosseum. The hallway leading there was dark and damp, as they all had been. Not particularly busy but not empty either, dozens of the ships crew walked by, mostly normal humans but he had passed a couple of tech priests closely followed by their own servo skulls. And as he walked beneath the high stretching arches of the hallway he couldn't help but notice another kind of a being, a servitor. Unlike the servo skulls these things still had flesh attached to their bones, heavily augmented by cybernetic implants and lobotomized, they tended to those tasks even normal humans weren't inclined to do. They walked comically in spasms, almost as if they were puppeteered by some invisible madman. It had stopped as Marcus neared it, he locked his eyes with that thing for a second and though he had seen a plea in them but the next moment it was gone. The servitor kept it's blank stare following Marcus as the enormous space marine walked by, it got pushed here and there by people flowing through the hallway, but it kept its eyes on the Astartes lieutenant. The two meters tall super soldier stuck out of the human crowd like a sore thumb. As he was nearing the exit, the light coming from the end of the hall way formed a sort of a halo around the marines head before it engulfed him whole. An electric shock from the mind impulse unit drilled into its brain compelled it to move and so it did, slowly but surely continuing on its way to get the new shells ready for orbital bombardment.</p>
+<p>Marcus emerged into the Colosseum and was struck by the cacophony of a large crowd. Down below in the sand stood two of his battle brothers. Marcus descended the steps of the enclosure until he spotted a familiar face sitting in the fifth row.</p>
+<p>"White Eyes!"</p>
+<p>Shabran Darr looked at the intruder and a smile appeared on his pale face. "Centurion Goliath! Good to see you brother."</p>
+<p>"You too Captain. What is going on down there?"</p>
+<p>"You haven't heard? We have a guest from the Conqueror. The equerry himself."</p>
+<p>"Kharn?!"</p>
+<p>"Indeed, he's visiting every legion vessel in preparation for the assault. And taking on challengers from each ship as he goes. The man on the far left of the pit is Neothed from the fifteenth company. He's the eighth so far to challenge Kharn."</p>
+<p>"Eighth? How long had Kharn been fighting?"</p>
+<p>"Not long at all actually. The previous challengers were new blood. But Neothed is a veteran, I suspect this fight will be worth a watch. Anyway, what brings you here Marcus? I know you don't fancy the Colosseum duels very much."</p>
+<p>"I don't. It's damn barbaric."</p>
+<p>The two legionaries below picked up their chain axes from where they had been layed in the sand before them.
+The hulking form of Kharn gave a subtle nod as to greet the challenger but Neothed instead charged without hesitation. Chain axes revved and soon after, the pungent smell of burnt prometheum fuel had reached the fifth row where Marcus and Shabran had been watching the duel.
+Kharn was a giant of an Astartes but still his opponent towered over him. Neothed was no ordinary veteran, he had been recruited over a century ago back on old Terra and was one of the few who still remembered the days when the World Eaters were called the War Hounds and when they were much more than just a legion of maddened savages. Yet he too bore the Butcher's Nails like the rest of his comrades.</p>
+<p>"I wanted to talk to you Shabran. Did you know the new scouts are psychers?"</p>
+<p>"So they keep sending them to us, huh? How many?"</p>
+<p>Marcus took a deep breath. "All of them, as far as I can tell."</p>
+<p>"All of them?! But... Damn it that is going to be a problem."</p>
+<p>Metal teeth grinded as the two marines in the pit crossed weapons. The crowd cheered and in that momentary pause Neothed's lips moved as he spoke something to Kharn. The words could not be heard over the screaming crowd but their meaning became clear once the eighth company's captain merely shrugged in indifference. That instance Neothed's face had changed and the outcome of the duel had been sealed. Ony one of them would walk away from that pit alive. Neothed's composed grimace had been replaced by a seething face of red anger. He tried to exhaust Kharn under a flurry of his chain axes, yet seemingly no matter how much more enraged he had become, Neothed couldn't land a single blow. During all of this, Kharn seemed calm, almost tranquil, tough that could not have been the case thanks to the mechanical tendrils that clung to his head. Then, finally after only a brief fight, one of the warriors made a mistake.</p>
+<p>"I know Shabran, this will have consequences. The other companies already don't like us very much. You, me and the handful of us who have the Nails are exceptions but I can see the looks when one of ours without the Nails walks by. For Emperors sake, they have to hide Shabran, our own people!"</p>
+<p>White Eyes turned his ashen face to stare into nothingness. "And what am I supposed to do about it?" He turned back to face Marcus. "Do you want me to go talk to Angron on the Conqueror? Maybe you could come with me, so that I won't even have to speak a word before he kills us."</p>
+<p>Now it was Goliaths turn to look away. He shook his head and slouched. "Sometimes I wish I'd died along the other librarians. At least I wouldn't have to witness our downfall."</p>
+<p>"And why haven't you?"</p>
+<p>Kharn swung one of his axes with enough force to make the exhausted Neothed stagger and buried the other into the old space marines chest.
+Awful wet sound shot throughout the Colosseum like a bolter bullet as the chained teeth shredded the black carapace underneath Neothed's skin and struggled to get through the Astartes reinforced fused ribcage. Neothed grabbed the axe embedded into his chest and kicked the equerry in his right thigh. Kharn's leg have away as his opponent's chain axe came to life descending onto his neck. He ducked under the blow, only to find Neothed's knee flying towards his face. Kharn slipped from Neothed's grip and stumbled through the sand quickly regaining his stance.</p>
+<p>Marcus paused. "I wasn't strong enough White Eyes." He turned to face Shabran. "My powers developed only after the implantation. You know the consequences of drilling the Butcher's Nails down a psychers brain. You thought I survived thanks to some strong will? No." Marcus sighed. "I was just lucky. Learning to use my gift was painful. But because it had only started manifesting when I already had the Nails the episodes of losing control couldn't have killed me. My brother took me as an apprentice, but even then I knew I would never be able to use my powers to the extent the Librarius required. The Nails had stripped me of any control over outside usage of the warp so I had stopped trying after the first failed attempt. And when my brother died, there was no reason to remain so I joined out company instead."</p>
+<p>Neothed ripped the chain axe from his own chest and fell onto his right knee. With great effort the veteran space marine got back on his feet, a bloodied mess. He gave someone in the audience a knowing look and turned back to Kharn. For a moment silence descended upon the arena. Then came a roar: "For the Emperor!" and Neothed charged one last time. Kharn didn't even have to try very hard as he dodged the veterans desperate attempt at a ruse and tore open his gut.</p>
+<p>Shabran Darr laid his hand upon his friends shoulder and spoke with a somber tone. "Your brother was a brave warrior and a talented sorcerer Marcus, I'm sorry."</p>
+<p>"Thank you. I'll try to talk to the remaining librarians. See if they can persuade the equerry to reason with Angron but... This battle has been lost a long time ago White Eyes. The day we got our primarch back was the day we all died and; now, only wraiths roam this legions ranks." He looked at the brothers from the eleventh company sitting at the bottom of the Colosseum. "Don't let them down Shabran. If we can't make it better than at least let us die with honor." And with that he stood up and left the pondering young captain behind.</p>
+<p>Servitors emerged from sides of the pit and lifted the fallen on command of the Apothecary. As they walked away the Apothecary picked up Neothed's intestines which hung from the stretcher. I'd rather not die at all. Shabran Darr thought. But if it has to be this way, than we will be ready.</p>
+<p>That night Marcus had another dream. But this time it was no memory of his. He saw a boy sitting on a metal throne. Hooded figures lined the trail leading to it. Not of his own volition he started walking towards it. As he moved he noticed he wasn't walking at all, he was being dragged. The two man dropped him at the boys feet. He looked up at the person before him and saw a mutated creature. What had seemed like a crown in the dim purple light of the room were in reality horns protruding from his head, the symbolic scepter was no scepter at all but a horribly looking tentacle in place of the boys left arm. He was dressed in robes with a steel collar around his neck connected to several chains covered by the robe.</p>
+<p>The monster looked at Marcus with its unnatural purple eyes and licked its lips. "Yes! I am going to enjoy this one."</p>
+<p>It smiled with perverted parody on a boyish grin, picked him up with one hand and looked into his eyes.</p>
+<p>"P-please." It muttered, obviously confused. "Please help me. HELP ME!" It dropped Marcus and continued screaming. The hooded figures in the room fell to their knees clutching their heads as one by one they fell to the floor creating an ever growing pool of blood. The screaming kept going and Marcus could all but take his eyes from the now floating creature in front of him. It's flesh was tearing open, glowing with purple fire. It started mutating more horrific features: claws, hoofs and even more tentacles. He saw glimpses of a city, dreams within a dream, visions of a great serpent hunting young children, a collared mutant with claws instead of its hands. The monster reached the ceiling and then suddenly the dream collapsed and Marcus was left in the dark void between consciousness. The Deliverence had entered real space. In a few hours they would meet up with the other Legions and the campaign would begin. In a few hours Marcus would make planet fall with his brothers from the eleventh assault company on the planet of Istvaan III.</p>
+<p>Chapter II</p>
+<p>FIGHT WITH ANGRON or KHARN</p>
+<p>Marcus walked towards his former brother with a solemn face of a man walking towards the executioners block. He had no chance of survival and he knew it well. Still, it would buy his brothers and the boy some time to escape from the surface. Kharn watched him approach, the captain of the twelfth legion was a brute and as unpredictable as a ball lightning but today he was respectful towards the old comrade coming for a challenge. The huge figure, clad in white armor, raised his axe. There was a twitch in his right eye and when he spoke, white spit sprinkled the carnage that laid all around.</p>
+<p>"Marcus! You knew this day would come. We both did."</p>
+<p>With ten paces between him and his adversary, Marcus had stopped.</p>
+<p>"Yes. What I couldn't know however, was that you'd be the traitor, Kharn."</p>
+<p>It haven't moved the captain. Perhaps the accursed nails had rid him of concience as well. Kharn let his right arm, holding the axe fall to his side, mirroring Marcus.
+The two marines slowly closed the distance until they were both an arms reach of one another's weapon. There'd be no guns, no flame throwers just the pure brutality of promethium powered chain axes. The moment seemed to stretch forever. Silence seemed to descend upon the world of Istvan V. The air was humid and thick with a scent of blood that left a metallic taste on ones tongue. Then it all fell into a choreographed chaos.</p>
+<p>Marcus ducked, dodging an axe that flew just a few centimeters where his neck was just a mere millisecond ago.</p>]]></content:encoded></item></channel></rss>
