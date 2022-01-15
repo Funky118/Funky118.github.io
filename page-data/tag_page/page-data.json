@@ -1,1 +1,5 @@
-{"componentChunkName":"component---src-templates-page-js","path":"/tag_page/","result":{"data":{"markdownRemark":{"html":"<p><a href=\"/tag/miscellaneous\">Misc</a></p>\n<p><a href=\"/tag/coding\">Programming</a></p>\n<p><a href=\"/tag/lit\">Literature</a></p>\n<ul>\n<li>\n<p><a href=\"/tag/poetry\">Poetry</a></p>\n</li>\n<li>\n<p><a href=\"/tag/prose\">Prose</a></p>\n</li>\n</ul>","frontmatter":{"title":"Tags"}}},"pageContext":{"slug":"tag_page"}},"staticQueryHashes":["2219164485"]}
+{
+    "componentChunkName": "component---src-templates-page-js",
+    "path": "/tag_page/",
+    "result": {"data":{"markdownRemark":{"html":"<p><a href=\"/tag/miscellaneous\">Misc</a></p>\n<p><a href=\"/tag/coding\">Programming</a></p>\n<p><a href=\"/tag/lit\">Literature</a></p>\n<ul>\n<li>\n<p><a href=\"/tag/poetry\">Poetry</a></p>\n</li>\n<li>\n<p><a href=\"/tag/prose\">Prose</a></p>\n</li>\n</ul>","frontmatter":{"title":"Tags"}}},"pageContext":{"slug":"tag_page"}},
+    "staticQueryHashes": ["2219164485"]}

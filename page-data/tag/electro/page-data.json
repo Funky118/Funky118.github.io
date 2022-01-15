@@ -1,1 +1,5 @@
-{"componentChunkName":"component---src-templates-tag-js","path":"/tag/electro/","result":{"data":{"allMarkdownRemark":{"totalCount":1,"edges":[{"node":{"id":"96e46452-dc4c-5617-8056-64b48149301a","html":"","frontmatter":{"title":"","slug":"electro","tags":null,"feature_image":null,"author":null},"excerpt":""}}]}},"pageContext":{"slug":"electro","limit":12,"skip":0,"numberOfPages":1,"humanPageNumber":1,"prevPageNumber":null,"nextPageNumber":null,"previousPagePath":null,"nextPagePath":null,"tag":{"tag_id":"electro","slug":"electro","description":"Elektronické srandičky","name":"Elektronika","url":"/tag/electro/"}}},"staticQueryHashes":["2219164485"]}
+{
+    "componentChunkName": "component---src-templates-tag-js",
+    "path": "/tag/electro/",
+    "result": {"data":{"allMarkdownRemark":{"totalCount":1,"edges":[{"node":{"id":"96e46452-dc4c-5617-8056-64b48149301a","html":"","frontmatter":{"title":"","slug":"electro","tags":null,"feature_image":null,"author":null},"excerpt":""}}]}},"pageContext":{"slug":"electro","limit":12,"skip":0,"numberOfPages":1,"humanPageNumber":1,"prevPageNumber":null,"nextPageNumber":null,"previousPagePath":null,"nextPagePath":null,"tag":{"tag_id":"electro","slug":"electro","description":"Elektronické srandičky","name":"Elektronika","url":"/tag/electro/"}}},
+    "staticQueryHashes": ["2219164485"]}
